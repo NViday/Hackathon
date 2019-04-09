@@ -1,0 +1,34 @@
+{
+  "name": "hachathon-alife",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NViday/Hackathon.git"
+  },
+  "keywords": [
+    "app",
+    "healh"
+  ],
+  "author": "N'Vida A. Yotcho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NViday/Hackathon/issues"
+  },
+  "homepage": "https://github.com/NViday/Hackathon#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  },
+  "engines": {
+    "node": "10.15.3"
+  }
+}
