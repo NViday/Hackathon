@@ -1,8 +1,7 @@
 
 let mongoose = require('mongoose');
 
-let connectionString = ''; 
-
+let connectionString = 'mongodb+srv://dbAdmin:vv7HDfvAYkfnVKbi@cluster0-ydbjm.gcp.mongodb.net/alifedb'; 
 
 
 
@@ -23,8 +22,10 @@ class Database
       .catch( err => 
        {
           console.error('Database connection error!') 
-       }
+       })
 
   }
 
 } 
+
+module.exports = new Database()
