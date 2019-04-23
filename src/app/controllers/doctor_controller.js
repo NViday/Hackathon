@@ -53,7 +53,6 @@ exports.doctors_all = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("a doctor profile was successfully created");
             res.status(200).json(doctor_list)
         }
     );    
@@ -76,7 +75,6 @@ exports.doctors_named= (req, res) =>
             res.status(500).send(err);
         };
 
-        logger.verbose("a doctor profile was successfully created");
         res.status(200).json(doctor_list)
     }
     );   
