@@ -10,38 +10,110 @@ let validator = require('validator');
 
 //custom 
 let logger = require("../utils/logger");
+const User = require("../schemas/user_schema");
 
 
-const User = mongoose.Model('User');
+//Create 
+exports.user_create = (req, res) => 
+{
+    const newUser= new User(req.body);
+    newUser.save(
+        //callback function
+        (err, user)=>
+        {
+            if(err) 
+            { 
+                logger.error(err);
+                res.status(500).send(err);
+            };
 
-
-//Create : ( see register / login )
-
+            logger.verbose("a user profile was successfully created");
+            res.status(200).json(user)
+        }
+    );    
+       
+};
 
 //Read 
 
-//retrieve a list of all reviews
 
-
-//retrieve a review by id
-
-//Update 
-
-
-//Delete
-
-exports.delete = (req, res) => 
+//retrieve a user by id
+exports.user_get = (req, res) => 
 {
-    User.deleteOne( {_id: req.params.user })
-        .then( () => {res.SendStatus(204)})
-        .catch( err=> 
-            {
-                logger.error(err);
-                res.status(422).send(err.errors);
-            })
+    let id= req.params._id; 
+    
+    user.findById(id,
+        
+    //callback function
+    (err, user)=>
+    {
+        if(err) 
+        { 
+            logger.error(err);
+            res.status(500).send(err);
+        };
 
+        res.status(200).json(user)
+    }
+    );  
 };
 
 
 
 
+//Update
+exports.user_update = (req, res) => 
+{
+    let updated_user= req.body;
+    let id = req.params._id; 
+
+    user.findByIdAndUpdate( id, 
+        
+        //full / partial update 
+        updated_user, 
+
+        //options 
+        {new : true, runValidators: true, upsert : true } ,
+
+        //callback function
+        (err, user)=>
+        {
+            if(err) 
+            { 
+                logger.error(err);
+                res.status(500).send(err);
+            };
+
+            logger.verbose("user "+ id + ": profile was successfully updated");
+            res.status(200).json(user);
+        }
+    );
+    
+};
+
+
+
+//Delete
+exports.user_delete = (req, res) => 
+{
+    let updated_user = req.body;
+    let id = req.params._id; 
+    user.findByIdAndUpdate( id, 
+    
+        updated_user,
+    
+        //callback function
+        (err, user)=>
+        {
+            if(err) 
+            { 
+                logger.error(err);
+                res.status(500).send(err);
+            };
+
+            logger.error("user "+ id + ":  profile was successfully deleted");
+            res.SendStatus(204)
+        }
+    );
+
+};

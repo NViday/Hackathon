@@ -17,8 +17,7 @@ const Doctor = require("../schemas/doctor_schema");
 exports.doctor_create = (req, res) => 
 {
     const newDoctor= new Doctor(req.body);
-    newDoctor.save( newDoctor, 
-
+    newDoctor.save(
         //callback function
         (err, doctor)=>
         {
@@ -42,7 +41,9 @@ exports.doctors_all = (req, res) =>
 {
     Doctor.find(
 
-        '_id  title specialities names address',
+        '_id  title specialities names ratings',
+
+        {sort:  ["ratings._avg.rating", "descending"]},
         
         //callback function
         (err, doctor_list)=>
@@ -58,58 +59,39 @@ exports.doctors_all = (req, res) =>
     );    
 };
 
-exports.doctors_named= (req, res) => 
+exports.doctors_search= (req, res) => 
 {
-    let fullName = req.params.fullName; 
+    let search_keyword = req.params.keyword; 
+    let address = req.params.address;
+    Doctor.find(
+        {
+            $and : 
+            [ 
+            {
+                $text: 
+                {
+                    $search: search_keyword, 
+                    $caseSensitive : false, 
+                },
+            },
+                
+            { 
+                score: {meta: "textScore"}
+            },
+            {
+                fullAddress : new RegExp('^'+address+'$', "i")
 
-    Doctor.find({"fullName" : fullName },
- 
-    '_id  title specialities names address',
+            },
         
-    //callback function
-    (err, doctor_list)=>
-    {
-        if(err) 
-        { 
-            logger.error(err);
-            res.status(500).send(err);
-        };
+            ],
+        },
 
-        res.status(200).json(doctor_list)
-    }
-    );   
-};
+        //projection
+        '_id  title specialities names ratings',
 
-exports.doctors_specialized_in= (req, res) => 
-{
-     let fullName = req.params.fullName; 
-    
-    Doctor.find({"fullName" : fullName },
- 
-    '_id  title specialities names address',
-        
-    //callback function
-    (err, doctor_list)=>
-    {
-        if(err) 
-        { 
-            logger.error(err);
-            res.status(500).send(err);
-        };
+        //option 
+        {sort:  "textScore"},
 
-        logger.verbose("a doctor profile was successfully created");
-        res.status(200).json(doctor_list)
-    }
-    );  
-};
-
-exports.doctors_work_at= (req, res) => 
-{
-    let hospitalID = req.params.hospital; 
-    
-    Doctor.find({ hospital : hospitalID },
- 
-        '_id  title specialities names address',
         
         //callback function
         (err, doctor_list)=>
@@ -120,32 +102,36 @@ exports.doctors_work_at= (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("a doctor profile was successfully created");
+            res.status(200).json(doctor_list)
+        }
+        );   
+};
+
+
+exports.doctors_work_at= (req, res) => 
+{
+    let hospitalID = req.params.hospital; 
+    
+    Doctor.find({ hospital : hospitalID },
+ 
+        '_id  title specialities names ratings',
+
+        {sort:  ["ratings._avg.rating", "descending"]},
+        //callback function
+        (err, doctor_list)=>
+        {
+            if(err) 
+            { 
+                logger.error(err);
+                res.status(500).send(err);
+            };
+
+            
             res.status(200).json(doctor_list)
         }
     );  
 };
 
-exports.doctors_located_at= (req, res) => 
-{
-    let fullName = req.params.fullName; 
-    Doctor.find({"fullName" : fullName }, 
-    '_id  title specialities names address',
-    
-    //callback function
-    (err, doctor) => 
-    {
-        if(err) 
-        { 
-            logger.error(err);
-            res.status(500).send(err);
-        };
-        res.status(200).json(doctors);
-    }); 
-       
-        
-    
-};
 
 //retrieve a doctor by id
 exports.doctor_profile = (req, res) => 
@@ -194,7 +180,7 @@ exports.doctor_profile_update = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("doctor "+ doctor._id + ": profile was successfully updated");
+            logger.verbose("doctor "+ id + ": profile was successfully updated");
             res.status(200).json(doctor);
         }
     );
@@ -218,7 +204,7 @@ exports.doctor_profile_delete = (req, res) =>
             res.status(500).send(err);
         };
 
-        logger.error("doctor "+ doctor._id + ":  profile was successfully deleted");
+        logger.error("doctor "+ id + ":  profile was successfully deleted");
         res.SendStatus(204)
     });
 

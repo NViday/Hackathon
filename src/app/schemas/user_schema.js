@@ -53,8 +53,6 @@ let user_schema = new mongoose.Schema
 
             trim : true,
 
-            require : true,
-
             validate : (value) => 
             {
                 return validator.isMobilePhone(value)
@@ -111,7 +109,7 @@ let user_schema = new mongoose.Schema
              
         },
        
-        birthday : {type: Date},
+
         address : 
         {
             city : 
@@ -161,6 +159,23 @@ let user_schema = new mongoose.Schema
             
             },
 
+            country : 
+            { 
+                type: String, 
+
+                lowercase : true,
+
+                trim : true,
+
+                require : true,
+
+                validate : (value) => 
+                {
+                    return !validator.isEmpty(value)
+                } 
+        
+            },
+
         },
 
         personal_info : 
@@ -169,12 +184,6 @@ let user_schema = new mongoose.Schema
             { 
                 
                 type : Date, 
-                /*
-                validate : (value) => 
-                {
-                    return  value.
-                } 
-                */
             
             
             },
@@ -297,8 +306,31 @@ user_schema.virtual('fullName').get((name)=>
 }
 );
 
+user_schema.virtual('fullAddress').get( ()=>
+{
+    return  this.address.city + " , " + this.address.state + " , "+ this.address.zipcode +" , " + this.address.country  
+});
+
+user_schema.virtual('fullAddress').set((full_address)=> 
+{
+    let result = full_address.split(' , ')
+
+    this.address.city = result[0]
+
+    this.address.state = result[1]
+
+    this.address.zipcode = Number(result[2])
+
+    this.address.country = result[3]
+}
+);
+
 
 //Methods 
+user_schema.methods.getCapitalizedAddress = ()=> 
+{
+    return helper.capitalize(this.address.street) + ' , ' + helper.capitalize(this.address.city) + ' , ' + helper.capitalize(this.address.state) +" - "+ this.address.zipcode + ' , ' + helper.capitalize(this.address.country)
+};
 
 user_schema.methods.getInitials = () => 
 {

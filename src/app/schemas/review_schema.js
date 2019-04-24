@@ -11,7 +11,7 @@ let timestamps = require('mongoose-timestamp');
 let mongooseStringQuery = require('mongoose-string-query');
 
 //custom 
-//let helper = require('../utilities/helper.js');
+
 
 //constants
 
@@ -26,6 +26,13 @@ let review_schema = new mongoose.model
 
         ref : 'User',
 
+        require : true
+    },
+
+    about : 
+    {
+        type : mongoose.Schema.Types.ObjectId, 
+        
         require : true
     },
 
@@ -91,5 +98,8 @@ let review_schema = new mongoose.model
 //plugins
 review_schema.plugin(timestamps);
 review_schema.plugin(mongooseStringQuery);
+
+//text index for search
+review_schema.index({'$**': 'text'});
 
 module.exports = mongoose.model("Review", hospital_schema, "reviews")

@@ -3,21 +3,20 @@
 //doctor_routes
 
 
-//requirements 
-let DoctorModel = require("../schemas/doctor_schema");
+module.exports = (app) => {
 
+    const controller = require('../controllers/doctor_controller.js');
 
-//POST
-
-//create 
-
-
-//update
-
-
-//GET
-
-
-
-//DELETE
+    // todoList Routes
+    app.route('/hospitals')
+      .get(controller.doctors_all)
+      .get(controller.doctors_search)
+      .get(controller.doctors_work_at);
+  
+  
+    app.route('/hospitals/:hospitalId')
+      .delete(controller.doctor_profile_delete)
+      .update(controller.doctor_profile_update)
+      .get(controller.doctor_profile);
+}
 

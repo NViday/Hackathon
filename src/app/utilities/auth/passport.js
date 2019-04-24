@@ -27,6 +27,7 @@ passport.use(new local_strategy
         (username, password, done) => 
         {
             User.findOne({email: username},
+            
                 (err, user_result) => 
                 {
                     if (err) { return done(err);}

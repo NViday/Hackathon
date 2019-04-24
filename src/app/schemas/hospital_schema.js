@@ -9,13 +9,15 @@ let mongooseStringQuery = require('mongoose-string-query');
 
 
 //constants
-//let helper = require('../utilities/helper.js');
+let helper = require('../utilities/helper.js');
 
 //schema
 let hospital_schema = new mongoose.model
 ({
 
-    Name : 
+    _id :{ type : mongoose.Schema.Types.ObjectId },
+
+    name : 
     {
         type : String ,
         require : true,
@@ -87,6 +89,23 @@ let hospital_schema = new mongoose.model
         
         },
 
+        country : 
+        { 
+            type: String, 
+
+            lowercase : true,
+
+            trim : true,
+
+            require : true,
+
+            validate : (value) => 
+            {
+                return !validator.isEmpty(value)
+            } 
+        
+        },
+
     },
 
     medical_profileURL : 
@@ -95,7 +114,7 @@ let hospital_schema = new mongoose.model
 
         trim : true,
 
-        require : true,
+        //require : true,
     },
 
     ratings: 
@@ -387,9 +406,38 @@ let hospital_schema = new mongoose.model
 
 });
 
+//virtual
+hospital_schema.virtual('fullAddress').get( ()=>
+{
+    return this.address.street + " , " + this.address.city + " , " + this.address.state + " , " + this.address.country  
+});
+
+hospital_schema.virtual('fullAddress').set((full_address)=> 
+{
+    let result = full_address.split(' , ')
+
+    this.address.city = result[0]
+
+    this.address.state = result[1]
+
+    this.address.zipcode = Number(result[2])
+
+    this.address.country = result[3]
+}
+);
+
+
+//methods
+hospital_schema.methods.getCapitalizedAddress = ()=> 
+{
+    return helper.capitalize(this.address.street) + ' , ' + helper.capitalize(this.address.city) + ' , ' + helper.capitalize(this.address.state) +" - "+ this.address.zipcode + ' , ' + helper.capitalize(this.address.country)
+};
+
+
 //plugins
 hospital_schema.plugin(timestamps);
 hospital_schema.plugin(mongooseStringQuery);
+
 
 module.exports = mongoose.model("Hospital", hospital_schema, "hospitals")
 

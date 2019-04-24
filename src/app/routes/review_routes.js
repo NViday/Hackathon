@@ -3,20 +3,19 @@
 
 //review_routes
 
+module.exports = (app) => {
 
-//requirements 
-let ReviewModel = require("../schemas/review_schema");
+    const controller = require('../controllers/review_controller.js');
 
-//POST
-
-//create 
-
-
-//update
-
-
-//GET
-
-
-
-//DELETE
+    // todoList Routes
+    app.route('/reviews')
+      .get(controller.review_create)
+      .get(controller.reviews_search)
+      .post(controller.reviews_all);
+  
+  
+    app.route('/reviews/:reviewId')
+      .get(controller.review_get)
+      .put(controller.review_update)
+      .delete(controller.review_delete);
+}

@@ -27,10 +27,6 @@ let doctor_schema = new mongoose.Schema
         _abbreviation : 
         {
             type : String,
-
-            require : true, 
-
-            enum : ['Dr'] ['N'] ['OBGYN'] ['Other']
         },
 
         _full: 
@@ -130,6 +126,23 @@ let doctor_schema = new mongoose.Schema
         
         },
 
+        country : 
+        { 
+            type: String, 
+
+            lowercase : true,
+
+            trim : true,
+
+            require : true,
+
+            validate : (value) => 
+            {
+                return !validator.isEmpty(value)
+            } 
+        
+        },
+
       
     },
 
@@ -137,7 +150,7 @@ let doctor_schema = new mongoose.Schema
     {
         type: String, 
         trim : true,
-        require : true,
+        //require : true,
     },
     
     hospital : 
@@ -446,10 +459,32 @@ doctor_schema.virtual('fullName').set((name)=>
 }
 );
 
+doctor_schema.virtual('fullAddress').get( ()=>
+{
+    return  this.address.city + " , " + this.address.state + " , " + this.address.country  
+});
+
+doctor_schema.virtual('fullAddress').set((full_address)=> 
+{
+    let result = full_address.split(' , ')
+
+    this.address.city = result[0]
+
+    this.address.state = result[1]
+
+    this.address.country = result[1]
+}
+);
 
 
-//Methods 
-doctor_schema.methods.getFullName = ()=> 
+//Methods
+
+doctor_schema.methods.getCapitalizedAddress = ()=> 
+{
+    return helper.capitalize(this.address.City) + ' , ' + helper.capitalize(this.address.state) + ' , ' + helper.capitalize(this.address.country)
+};
+
+doctor_schema.methods.getCapitalizedFullName = ()=> 
 {
     return helper.capitalize(this.names.firstName) + ' ' + helper.capitalize(this.names.lastName)
 };
@@ -471,11 +506,11 @@ doctor_schema.methods.getCapitalizedLName = () =>
 };
 
 //plugins 
-
-
 doctor_schema.plugin(timestamps);
 doctor_schema.plugin(mongooseStringQuery);
 
+//text index for search
+doctor_schema.index({'$**': 'text'});
 
 
 module.exports = mongoose.model("Doctor", doctor_schema, "doctors" )
