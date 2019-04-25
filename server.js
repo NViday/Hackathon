@@ -14,8 +14,7 @@ let express = require('express'),
  jwt = require('express-jwt'),
  compression = require('compression'),
  winston = require('winston'),
- expressWinston = require('express-winston'),
- winstonPapertrail = require('winston-papertrail');
+ winstonPapertrail = require('winston').Papertrail;
 
 
 
