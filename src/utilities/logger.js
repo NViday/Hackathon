@@ -3,9 +3,9 @@
 
 
 let winston = require('winston');
-let winston_papertrail = require('winston-papertrail');
+let winston_papertrail = require('winston').Papertrail;
 
-let config = require('../../config');
+let config = require('../config');
 
 let logger;
 

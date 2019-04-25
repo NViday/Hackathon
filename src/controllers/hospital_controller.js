@@ -9,7 +9,7 @@ let async = require('async');
 let validator = require('validator');
 
 //custom 
-let logger = require("../utils/logger");
+let logger = require("../utilities/logger");
 const Hospital = require("../schemas/hospital_schema");
 
 

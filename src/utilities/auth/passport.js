@@ -1,7 +1,7 @@
 //passport
 
 
-let config = require("./app/config");
+let config = require("../config");
 let mongoose = require('mongoose');
 let passport = require('passport'),
     local_strategy = require('passport-local').Strategy, 
