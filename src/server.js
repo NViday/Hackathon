@@ -17,9 +17,11 @@ let express = require('express'),
  expressWinston = require('express-winston'),
  winstonPapertrail = require('winston-papertrail');
 
- 
+
+
 //custom modules 
 let config = require("./app/config");
+let logger = require("./app/utilities/logger");
 
 //init app
 let app = express();
@@ -27,15 +29,38 @@ let app = express();
 //init middleware
 app.use(cors());
 app.use(compression());
-
 app.use(express.static("public"));
 app.use(session({secret: config.secret_code }));
-
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-
 app.use(passport.initialize());
 app.use(passport.session());
+
+// init logger (winston + papertrail)
+app.use(
+        expressWinston.logger({
+                transports: [
+                        new winston.transports.Papertrail({
+                                host: config.logger.host,
+                                port: config.logger.port,
+                                level: 'debug',
+                        }),
+                ],
+                meta: true,
+        }),
+);
+      
+
+
+//routes 
+
+// define a simple route
+app.get('/', (req, res) => {
+        logger.verbose('ALife web server is on!')
+    }
+);
+    
+require('./app/routes/user_routes.js')(app);
 
 //no auth on following routes
 app.use(
@@ -46,7 +71,7 @@ app.use(
                   '/auth/login',
                   '/auth/forgot-password',
                   '/auth/reset-password',
-          ],
+                ],
   }), 
 
 );
@@ -57,25 +82,8 @@ app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
           res.status(401).send('unauthorized access');
   }
-});
-
-
-// init logger (winston + papertrail)
-app.use(
-  expressWinston.logger({
-          transports: [
-                  new winston.transports.Papertrail({
-                          host: config.logger.host,
-                          port: config.logger.port,
-                          level: 'error',
-                  }),
-          ],
-          meta: true,
-  }),
+}
 );
-
-
-
 
 
 // Release app
@@ -86,18 +94,16 @@ app.listen(config.server.port, err => {
   }
 
 // require the database library (which instantiates a connection to mongodb)
-  require('./utils/database');
+require('./utils/database');
 
 // loop through all routes and dynamically require them – passing api
-  fs.readdirSync(path.join(__dirname, 'routes')).map(file => {
+fs.readdirSync(path.join(__dirname, 'routes')).map(file => {
           require('./routes/' + file)(api);
   });
 
 // output the status of the api in the terminal
-  logger.info(`API is now running on port ${config.server.port} in ${config.env} mode`);
+logger.info(`API is now running on port ${config.server.port} in ${config.env} mode`);
 });
-
-
 
 
 module.exports = app; 

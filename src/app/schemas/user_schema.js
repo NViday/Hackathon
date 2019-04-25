@@ -136,7 +136,7 @@ let user_schema = new mongoose.Schema
 
                 trim : true,
 
-                require : true,
+                //require : true,
 
                 validate : (value) => 
                 {
@@ -150,7 +150,7 @@ let user_schema = new mongoose.Schema
                 
                 type : Number, 
 
-                require : true,
+                //require : true,
 
                 validate : (value) => 
                 {
@@ -167,7 +167,7 @@ let user_schema = new mongoose.Schema
 
                 trim : true,
 
-                require : true,
+                //require : true,
 
                 validate : (value) => 
                 {
@@ -283,6 +283,8 @@ let user_schema = new mongoose.Schema
             profileURL :  {type : String },
 
             profile : {type : String },
+
+            provider_token : {type : String },
         },
     }
   

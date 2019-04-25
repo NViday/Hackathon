@@ -399,7 +399,43 @@ let doctor_schema = new mongoose.Schema
                     }
                 },
 
-                not_applicable : 
+
+                not_insured : 
+                {
+                    raters : 
+                     {
+                        type : Number, 
+                        require : true 
+                    },
+
+                    rating: 
+                    {
+                        type : Number, 
+                        require : true 
+
+                    }
+
+                },
+
+
+                doctor : 
+                {
+                    raters : 
+                     {
+                        type : Number, 
+                        require : true 
+                    },
+
+                    rating: 
+                    {
+                        type : Number, 
+                        require : true 
+
+                    }
+
+                },
+
+                unknown : 
                 {
                     raters : 
                      {
@@ -420,16 +456,6 @@ let doctor_schema = new mongoose.Schema
          
     },
 
-    reviews: 
-    [
-        { 
-            type : mongoose.Schema.Types.ObjectId , 
-
-            ref = 'Review'
-
-        },
-
-    ],
 
     createdOn : { type: Date, default: Date.now },
 
