@@ -78,7 +78,7 @@ app.use((err, req, res, next) => {
 
 
 // Release app
-app.listen(config.server.port, err => {
+app.listen(config.server_port, err => {
   if (err) {
           logger.error(err);
           process.exit(1);
