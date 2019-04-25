@@ -21,7 +21,7 @@ let express = require('express'),
 
 //custom modules 
 let config = require("./app/config");
-let logger = require("./app/utilities/logger");
+//let logger = require("./app/utilities/logger");
 
 //init app
 let app = express();
