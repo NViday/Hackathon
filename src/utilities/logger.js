@@ -3,7 +3,7 @@
 
 
 let winston = require('winston');
-let winston_papertrail = require('winston').Papertrail;
+require('winston-papertrail').Papertrail;
 
 let config = require('../config');
 
@@ -15,6 +15,8 @@ if (config.env == 'test' || config.env == 'local' || config.env == 'development'
 	const papertrailTransport = new winston.transports.Papertrail({
 		host: config.logger.host,
 		port: config.logger.port,
+		colorize: true,
+		handleExceptions : true 
 	});
 
 	logger = new winston.Logger({
