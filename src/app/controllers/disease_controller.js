@@ -41,8 +41,7 @@ exports.diseases_all = (req, res) =>
 {
     disease.find(
 
-
-        {sort:  ["name._current", "descending"]},
+        {sort:  ["name._current", "ascending"]},
         
         //callback function
         (err, disease_list)=>
@@ -77,15 +76,13 @@ exports.diseases_search= (req, res) =>
                 score: {meta: "textScore"}
             },
             {
-                fullAddress : new RegExp('^'+address+'$', "i")
+                listOfFullSymptoms: new RegExp('^'+ keyword +'$', "i")
 
             },
         
             ],
         },
 
-        //projection
-        '_id  title specialities names ratings',
 
         //option 
         {sort:  "textScore"},
@@ -106,33 +103,10 @@ exports.diseases_search= (req, res) =>
 };
 
 
-exports.diseases_work_at= (req, res) => 
-{
-    let hospitalID = req.params.hospital; 
-    
-    disease.find({ hospital : hospitalID },
- 
-        '_id  title specialities names ratings',
-
-        {sort:  ["ratings._avg.rating", "descending"]},
-        //callback function
-        (err, disease_list)=>
-        {
-            if(err) 
-            { 
-                logger.error(err);
-                res.status(500).send(err);
-            };
-
-            
-            res.status(200).json(disease_list)
-        }
-    );  
-};
 
 
 //retrieve a disease by id
-exports.disease_profile = (req, res) => 
+exports.disease_get = (req, res) => 
 {
     let id= req.params._id; 
     
@@ -156,7 +130,7 @@ exports.disease_profile = (req, res) =>
 
 
 //Update
-exports.disease_profile_update = (req, res) => 
+exports.disease_update = (req, res) => 
 {
     let updated_disease= req.body;
     let id = req.params._id; 
@@ -188,7 +162,7 @@ exports.disease_profile_update = (req, res) =>
 
 
 //Delete
-exports.disease_profile_delete = (req, res) => 
+exports.disease_delete = (req, res) => 
 {
     let id = req.params._id; 
     disease.findByIdAndRemove( id, 
