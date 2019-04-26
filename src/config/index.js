@@ -7,7 +7,7 @@ module.exports = {
 
     env: process.env.NODE_ENV || 'development',
 
-    server_port : process.env.PORT || 5000,
+    server_port : process.env.PORT || 8080,
 
     logger: {
         host: process.env.LOGGER_HOST, // Papertrail Logging Host
@@ -18,5 +18,5 @@ module.exports = {
 
     till_sms_key : process.env.TILL_URL,
 
-    secret_code : " la vie ",
+    secret_code : process.env.SECRET_CODE,
 };
