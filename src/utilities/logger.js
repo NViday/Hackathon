@@ -2,39 +2,39 @@
 //logger
 
 
+//logger.js
+
+
 let winston = require('winston');
 
-//to expose the winston papertrail transport 
-let transport = require('winston-transport')
-require('winston-papertrail').Papertrail;
+// papertrail transport 
+const { Papertrail } = require('winston-papertrail');
 
 let config = require('../config');
 
-
-
-var logger;
+const logger;
 
 if (config.env == 'test' || config.env == 'local' || config.env == 'development') {
 	logger = console;
 } else {
 
-	//init papertrail 
-	const papertrailTransport = new transports.Papertrail({
-		host: config.logger.host,
-		port: config.logger.port,
-		colorize: true,
-		handleExceptions : true 
-	});
-
-	papertrailTransport.on('error', (err)=> {});
-
 
 	//create logger
-	logger = winston.createLogger({
+	logger = winston.createLogger();
+
+	//init papertrail 
+	const papertrailTransport = new Papertrail(
+		{
+			level : 'error',
+			host: config.logger.host,
+			port: config.logger.port,
+		}
+	);
+
+	logger.add(papertrailTransport)
+
+
 	
-		transports: [papertrailTransport],
-		
-	});
 }
 
 module.exports = logger;
