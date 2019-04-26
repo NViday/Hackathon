@@ -5,6 +5,7 @@
 let winston = require('winston');
 
 //to expose the winston papertrail transport 
+let transport = require('winston-transport')
 require('winston-papertrail').Papertrail;
 
 let config = require('../config');
@@ -18,7 +19,7 @@ if (config.env == 'test' || config.env == 'local' || config.env == 'development'
 } else {
 
 	//init papertrail 
-	const papertrailTransport = new winston.transports.Papertrail({
+	const papertrailTransport = new transports.Papertrail({
 		host: config.logger.host,
 		port: config.logger.port,
 		colorize: true,
