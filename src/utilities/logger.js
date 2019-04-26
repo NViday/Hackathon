@@ -8,11 +8,11 @@
 let winston = require('winston');
 
 // papertrail transport 
-const { Papertrail } = require('winston-papertrail');
+let { Papertrail } = require('winston-papertrail');
 
 let config = require('../config');
 
-const logger;
+let logger;
 
 if (config.env == 'test' || config.env == 'local' || config.env == 'development') {
 	logger = console;
