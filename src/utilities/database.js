@@ -24,11 +24,11 @@ class Database
     mongoose.connect(connectionString, {useNewUrlParser: true})
       .then(()=> 
        {
-          logger.log('connection to db successful') 
+          logger.log('connection to db successful') ;
        })
       .catch( err => 
        {
-          logger.error(err) 
+          logger.error(err) ;
        })
 
   }

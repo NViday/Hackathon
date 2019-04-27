@@ -3,7 +3,9 @@
 //keys
 
 module.exports = {
-    mongo_CS: process.env.MONGO_CONNECTION_STRING || "mongodb+srv://dbAdmin:vv7HDfvAYkfnVKbi@cluster0-ydbjm.gcp.mongodb.net/alifedb", 
+
+    mongo_CS: process.env.MONGO_CONNECTION_STRING, 
+
 
     env: process.env.APP_ENV || 'development',
 
