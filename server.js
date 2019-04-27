@@ -14,16 +14,16 @@ let express = require('express'),
  express_winston= require('express-winston');
 
 //custom modules 
-let config = require("./src/config");
-let logger = require("./src/utilities/logger");
+//let config = require("./src/config");
+//let logger = require("./src/utilities/logger");
 
 //init app
 let app = express();
 
 //set app secret 
-app.set('superSecret', config.secret_code);
+//app.set('superSecret', config.secret_code);
 
-
+/*
 //log
 // init my winston middleware
 // pass it my winston logger 
@@ -35,7 +35,7 @@ app.use(
                 colorize: true,
         }),
 );
-
+*/
 
 // init bodyParser for POST info
 app.use(bodyParser.urlencoded({extended: false}));
@@ -69,13 +69,13 @@ require('./utils/database');
 app.listen(process.env.PORT || 5000, (err) => {
   if (err) {
 
-        logger.info("error is coming your way");
+        console.log("error is coming your way");
         
-        logger.error(err);
+        //logger.error(err);
 
         process.exit(1);
   };
-  logger.verbose("we are live and running ");
+  console.log("we are live and running ");
 });
 
 
