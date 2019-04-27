@@ -20,8 +20,7 @@ let express = require('express'),
 //init app
 let app = express();
 
-//init db 
-require("./src/utilities/database");
+
 
 //set app secret 
 //app.set('superSecret', config.secret_code);
@@ -52,8 +51,11 @@ app.use(bodyParser.json());
 //app.use(passport.initialize());
 
 
+//init db 
+require("./src/utilities/database");
 
-    
+//models
+require("./src/schemas/*");
 
 //routes
 
