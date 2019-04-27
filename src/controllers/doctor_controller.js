@@ -61,8 +61,8 @@ exports.doctors_all = (req, res) =>
 
 exports.doctors_search= (req, res) => 
 {
-    let search_keyword = req.params.keyword; 
-    let address = req.params.address;
+    let search_keyword = req.body.keyword; 
+    let address = req.body.address;
     Doctor.find(
         {
             $and : 
@@ -110,9 +110,9 @@ exports.doctors_search= (req, res) =>
 
 exports.doctors_work_at= (req, res) => 
 {
-    let hospitalID = req.params.hospital; 
+    let hospital_id= req.params.hospitalId; 
     
-    Doctor.find({ hospital : hospitalID },
+    Doctor.find({ hospital : hospital_id},
  
         '_id  title specialities names ratings',
 
@@ -136,7 +136,7 @@ exports.doctors_work_at= (req, res) =>
 //retrieve a doctor by id
 exports.doctor_profile = (req, res) => 
 {
-    let id= req.params._id; 
+    let id= req.params.id; 
     
     Doctor.findById(id,
         
@@ -161,7 +161,7 @@ exports.doctor_profile = (req, res) =>
 exports.doctor_profile_update = (req, res) => 
 {
     let updated_doctor= req.body;
-    let id = req.params._id; 
+    let id = req.params.id; 
 
     Doctor.findByIdAndUpdate( id, 
         
@@ -192,7 +192,7 @@ exports.doctor_profile_update = (req, res) =>
 //Delete
 exports.doctor_profile_delete = (req, res) => 
 {
-    let id = req.params._id; 
+    let id = req.params.id; 
     Doctor.findByIdAndRemove( id, 
     
     //callback function

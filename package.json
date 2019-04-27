@@ -4,7 +4,7 @@
   "description": "The Yelp for Doctors",
   "main": "server.js",
   "scripts": {
-    "start": "./node_modules/nodemon ./src/server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",

@@ -17,7 +17,7 @@ const Doctor = require("../schemas/doctor_schema")
 //Create 
 exports.review_create = (req, res) => 
 {
-    let user_id = req.params.userId;
+    let user_id = req.params.id;
 
     User.findById( user_id,
         
@@ -90,7 +90,7 @@ exports.reviews_all = (req, res) =>
 //retrieve a list of reviews
 exports.reviews_search= (req, res) => 
 {
-    let search_keyword = req.params.keyword; 
+    let search_keyword = req.body.keyword; 
     
     Review.find(
         
@@ -128,7 +128,7 @@ exports.reviews_search= (req, res) =>
 
 exports.reviews_doctor_all = (req, res) => 
 {
-    let doctor_id = req.params.doctorId;
+    let doctor_id = req.params.id;
 
     Doctor.findById( doctor_id,
         
@@ -178,7 +178,7 @@ exports.reviews_doctor_all = (req, res) =>
 //retrieve reviews for user
 exports.review_user_all = (req, res) => 
 {
-    let user_id = req.params.userId;
+    let user_id = req.params.id;
 
     User.findById( user_id,
         

@@ -40,7 +40,7 @@ exports.hospital_create = (req, res) =>
 //retrieve a list of hospitals
 exports.hospitals_all = (req, res) => 
 {
-    hospital.find(
+    Hospital.find(
 
     //projections
     '_id  name address ratings',
@@ -63,8 +63,8 @@ exports.hospitals_all = (req, res) =>
 
 exports.hospitals_search= (req, res) => 
 {
-    let search_keyword = req.params.keyword; 
-    let address = req.params.address;
+    let search_keyword = req.body.keyword; 
+    let address = req.body.address;
     Hospital.find(
         {
             $and : 
@@ -107,7 +107,7 @@ exports.hospitals_search= (req, res) =>
 //retrieve a hospital by id
 exports.hospital_profile = (req, res) => 
 {
-    let id = req.params._id; 
+    let id = req.params.id; 
     
     Hospital.findById(id,
 
@@ -132,9 +132,9 @@ exports.hospital_profile = (req, res) =>
 exports.hospital_profile_update = (req, res) => 
 {
     let updated_hospital= req.body;
-    let id = req.params._id; 
+    let id = req.params.id; 
 
-    hospital.findByIdAndUpdate( id, 
+    Hospital.findByIdAndUpdate( id, 
         
         //full / partial update 
         updated_hospital, 
@@ -163,8 +163,8 @@ exports.hospital_profile_update = (req, res) =>
 //Delete
 exports.hospital_profile_delete = (req, res) => 
 {
-    let id = req.params._id; 
-    hospital.findByIdAndRemove( id, 
+    let id = req.params.id; 
+    Hospital.findByIdAndRemove( id, 
     
     //callback function
     (err, hospital)=>

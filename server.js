@@ -44,22 +44,23 @@ app.use(bodyParser.json());
 
 
 //init middleware
-app.use(cors());
-app.use(compression());
-//app.use('/public', express.static(path.join(__dirname, './src/routes')));
-
-app.use(passport.initialize());
+//app.use(cors());
+//app.use(compression());
+//app.use(passport.initialize());
 
 
 
-
-      
-
+    
 
 //routes
-var router = require('./src/routes/*').router;
 
-app.use("api/v1/", router);
+app.use("api/v1/", require('./src/routes'));
+app.use("/users", require('./src/routes/user_routes'));
+app.use("/reviews", require('./src/routes/review_routes'));
+app.use("/doctors", require('./src/routes/doctor_routes'));
+app.use("/hospitals", require('./src/routes/hospital_routes'));
+app.use("/diseases", require('./src/routes/disease_routes'));
+//app.use("/login", require('./src/routes/user_routes'));
     
 
 require('./utils/database');
@@ -68,7 +69,7 @@ require('./utils/database');
 app.listen(config.server_port, (err) => {
   if (err) {
 
-        logger.verbose("error is coming your way");
+        logger.info("error is coming your way");
         
         logger.error(err);
 

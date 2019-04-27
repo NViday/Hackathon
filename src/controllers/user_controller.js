@@ -28,7 +28,7 @@ exports.user_create = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("a user profile was successfully created");
+            logger.info("a user profile was successfully created");
             res.status(200).json(user)
         }
     );    
@@ -43,7 +43,7 @@ exports.user_get = (req, res) =>
 {
     let id= req.params.id; 
     
-    user.findById(id,
+    User.findById(id,
         
     //callback function
     (err, user)=>
@@ -68,7 +68,7 @@ exports.user_update = (req, res) =>
     let updated_user= req.body;
     let id = req.params.id; 
 
-    user.findByIdAndUpdate( id, 
+    User.findByIdAndUpdate( id, 
         
         //full / partial update 
         updated_user, 
@@ -95,7 +95,7 @@ exports.user_update = (req, res) =>
 
 
 //Delete
-exports.user_delete = (req, res) => 
+exports.User_delete = (req, res) => 
 {
     let updated_user = req.body;
     let id = req.params.id; 

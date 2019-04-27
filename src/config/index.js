@@ -5,9 +5,9 @@
 module.exports = {
     mongo_CS: process.env.MONGO_CONNECTION_STRING, 
 
-    env: process.env.NODE_ENV || 'development',
+    env: process.env.APP_ENV || 'development',
 
-    server_port : process.env.PORT || 8080,
+    server_port : process.env.PORT || 5000,
 
     logger: {
         host: process.env.LOGGER_HOST, // Papertrail Logging Host

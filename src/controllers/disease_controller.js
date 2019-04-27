@@ -59,7 +59,7 @@ exports.diseases_all = (req, res) =>
 
 exports.diseases_search= (req, res) => 
 {
-    let search_keyword = req.params.keyword; 
+    let search_keyword = req.body.keyword; 
     disease.find(
         {
             $and : 
@@ -108,7 +108,7 @@ exports.diseases_search= (req, res) =>
 //retrieve a disease by id
 exports.disease_get = (req, res) => 
 {
-    let id= req.params._id; 
+    let id= req.params.id; 
     
     disease.findById(id,
         
@@ -133,7 +133,7 @@ exports.disease_get = (req, res) =>
 exports.disease_update = (req, res) => 
 {
     let updated_disease= req.body;
-    let id = req.params._id; 
+    let id = req.params.id; 
 
     disease.findByIdAndUpdate( id, 
         
@@ -164,7 +164,7 @@ exports.disease_update = (req, res) =>
 //Delete
 exports.disease_delete = (req, res) => 
 {
-    let id = req.params._id; 
+    let id = req.params.id; 
     disease.findByIdAndRemove( id, 
     
     //callback function
