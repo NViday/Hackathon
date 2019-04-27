@@ -237,19 +237,6 @@ let user_schema = new mongoose.Schema
         },
 
 
-        reviews: 
-        [
-            { 
-                type : mongoose.Schema.Types.ObjectId , 
-
-                ref = 'Review'
-
-            },
-
-        ],
-        
-
-
         account_info: 
         {
             updatedOn : { type: Date },

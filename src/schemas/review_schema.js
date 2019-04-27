@@ -24,8 +24,6 @@ let review_schema = new mongoose.model
     {
         type : mongoose.Schema.Types.ObjectId, 
 
-        ref : 'User',
-
         require : true
     },
 

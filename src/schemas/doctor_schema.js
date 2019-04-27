@@ -157,8 +157,6 @@ let doctor_schema = new mongoose.Schema
     {
             type : mongoose.Schema.Types.ObjectId ,
 
-            ref: "Hospital",
-
             require : true, 
 
     },

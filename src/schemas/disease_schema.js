@@ -30,7 +30,7 @@ let disease_schema = new mongoose.Schema
             //require : true,
         },
 
-        _current:
+        _common:
         {
             type : String,
             trim : true,
@@ -83,10 +83,7 @@ let disease_schema = new mongoose.Schema
 });
 
 
-disease_schema.virtual('listOfSymptoms').get( () => 
-{
 
-});
 
 //plugins 
 disease_schema.plugin(timestamps);
