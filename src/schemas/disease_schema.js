@@ -5,6 +5,7 @@
 
 //npm
 let mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true)
 let validator = require('validator');
 let timestamps = require('mongoose-timestamp');
 let mongooseStringQuery = require('mongoose-string-query');

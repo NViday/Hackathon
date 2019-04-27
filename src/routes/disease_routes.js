@@ -11,6 +11,6 @@ router.get('/search',disease_controller.diseases_search)
   
 router.get('/:id', disease_controller.disease_get);
 router.delete('/:id', disease_controller.disease_delete);
-router.update('/:id',disease_controller.disease_update);
+router.post('/:id',disease_controller.disease_update);
 
 module.exports = router;

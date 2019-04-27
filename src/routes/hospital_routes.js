@@ -15,7 +15,7 @@ router.get('/search', hospital_controller.hospitals_search);
   
 router.get('/:id/doctors', doctor_controller.doctors_work_at);
 router.get('/:id',hospital_controller.hospital_profile)
-router.put('/:id',hospital_controller.hospital_profile_update)
+router.post('/:id',hospital_controller.hospital_profile_update)
 router.delete('/:id',hospital_controller.hospital_profile_delete);
 
 

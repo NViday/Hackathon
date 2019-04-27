@@ -6,6 +6,7 @@
 
 //npm 
 let mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true)
 let validator = require('validator');
 let timestamps = require('mongoose-timestamp');
 let mongooseStringQuery = require('mongoose-string-query');
@@ -16,7 +17,7 @@ let mongooseStringQuery = require('mongoose-string-query');
 //constants
 
 //Schema
-let review_schema = new mongoose.model 
+var review_schema = new mongoose.Schema
 ({
     _id : { type : mongoose.Schema.Types.ObjectId },
 
@@ -100,4 +101,4 @@ review_schema.plugin(mongooseStringQuery);
 //text index for search
 review_schema.index({'$**': 'text'});
 
-module.exports = mongoose.model("Review", review_schema, "reviews")
+module.exports = mongoose.model('Review', review_schema, 'reviews');

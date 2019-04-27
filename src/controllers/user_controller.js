@@ -95,11 +95,11 @@ exports.user_update = (req, res) =>
 
 
 //Delete
-exports.User_delete = (req, res) => 
+exports.user_delete = (req, res) => 
 {
     let updated_user = req.body;
     let id = req.params.id; 
-    user.findByIdAndUpdate( id, 
+    User.findByIdAndUpdate( id, 
     
         updated_user,
     

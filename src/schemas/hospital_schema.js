@@ -3,6 +3,7 @@
 
 //requirements
 let mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true)
 let validator = require('validator');
 let timestamps = require('mongoose-timestamp');
 let mongooseStringQuery = require('mongoose-string-query');
@@ -12,7 +13,7 @@ let mongooseStringQuery = require('mongoose-string-query');
 let helper = require('../utilities/helper.js');
 
 //schema
-let hospital_schema = new mongoose.model
+let hospital_schema = new mongoose.Schema
 ({
 
     _id :{ type : mongoose.Schema.Types.ObjectId },

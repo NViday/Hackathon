@@ -72,7 +72,6 @@ app.use("/diseases", require('./src/routes/disease_routes'));
 //app.use("/login", require('./src/routes/user_routes'));
     
 
-require('./utils/database');
 
 // Release app
 app.listen(process.env.PORT || 5000, (err) => {

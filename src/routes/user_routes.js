@@ -19,7 +19,7 @@ router.delete('/:id',user_controller.user_delete);
 //reviews
 router.post('/:id/reviews',review_controller.review_create);
 router.get('/:id/reviews',review_controller.review_user_all);
-router.put('/:userId/reviews/:reviewId', review_controller.review_update);
+router.post('/:userId/reviews/:reviewId', review_controller.review_update);
 router.delete('/:userId/reviews/:reviewId', review_controller.review_delete);
 
 
