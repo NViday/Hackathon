@@ -100,4 +100,4 @@ review_schema.plugin(mongooseStringQuery);
 //text index for search
 review_schema.index({'$**': 'text'});
 
-module.exports = mongoose.model("Review", hospital_schema, "reviews")
+module.exports = mongoose.model("Review", review_schema, "reviews")
