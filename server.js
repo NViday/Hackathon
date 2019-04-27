@@ -55,7 +55,11 @@ app.use(bodyParser.json());
 require("./src/utilities/database");
 
 //models
-require("./src/schemas/*");
+require("./src/schemas/user_schema");
+require("./src/schemas/review_schema");
+require("./src/schemas/hospital_schema");
+require("./src/schemas/doctor_schema");
+require("./src/schemas/disease_schema");
 
 //routes
 
