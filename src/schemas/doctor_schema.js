@@ -490,13 +490,13 @@ doctor_schema.virtual('fullAddress').get( ()=>
 
 doctor_schema.virtual('fullAddress').set((full_address)=> 
 {
-    let result = full_address.split(' , ')
+    let result = full_address.split(' , ');
 
-    this.address.city = result[0]
+    this.address.city = result[0];
 
-    this.address.state = result[1]
+    this.address.state = result[1];
 
-    this.address.country = result[1]
+    this.address.country = result[1];
 }
 );
 

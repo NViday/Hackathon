@@ -192,7 +192,7 @@ let user_schema = new mongoose.Schema
             { 
                 type : String, 
 
-                enum: ['M'] ['F'] ['N']
+                enum: ['Male', 'Female', 'Non-binary'],
             },
 
             ethnicity : 
@@ -228,7 +228,7 @@ let user_schema = new mongoose.Schema
         {
             checkUpFrequency : 
             { type : 
-                String, enum: ['NA'] ['Often'] ['Regularly']
+                String, enum: ['NA', 'Often', 'Regularly'],
             },
 
             isInsured : { type: Boolean}, 
