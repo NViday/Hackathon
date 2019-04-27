@@ -44,11 +44,11 @@ app.use(bodyParser.json());
 
 
 //init middleware
-//app.use(cors());
-//app.use(compression());
+app.use(cors());
+app.use(compression());
 //app.use('/public', express.static(path.join(__dirname, './src/routes')));
 
-//app.use(passport.initialize());
+app.use(passport.initialize());
 
 
 
@@ -61,54 +61,20 @@ var router = require('./src/routes/*').router;
 
 app.use("api/v1/", router);
     
-//require('./src/routes/user_routes.js')(app);
 
-//no auth on following routes
-/*
-app.use(
-  jwt({ secret: config.jwt.secret }).unless({
-          path: [
-                  '/',
-                  '/auth/register',
-                  '/auth/login',
-                  '/auth/forgot-password',
-                  '/auth/reset-password',
-                ],
-  }), 
-
-);
-
-*/
-/*
-// throw an error for unauthorized access 
-app.use((err, req, res, next) => {
-  if (err.name === 'UnauthorizedError') {
-          res.status(401).send('unauthorized access');
-  }
-}
-);
-*/
-
+require('./utils/database');
 
 // Release app
 app.listen(config.server_port, (err) => {
   if (err) {
-          logger.error(err);
-          process.exit(1);
+
+        logger.verbose("error is coming your way");
+        
+        logger.error(err);
+
+        process.exit(1);
   };
-
-  // require the database library (which instantiates a connection to mongodb)
-  require('./utils/database');
-
-  /*
-  // loop through all routes and dynamically require them – passing api
-  fs.readdirSync(path.join(__dirname, 'routes')).map(file => {
-          require('./src/routes/' + file)(api);
-  });
-
-// output the status of the api in the terminal
-logger.info(`API is now running on port ${config.server_port} in ${config.env} mode`);
-*/
+  logger.verbose("we are live and running ");
 });
 
 
