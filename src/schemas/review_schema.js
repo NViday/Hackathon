@@ -36,7 +36,7 @@ let review_schema = new mongoose.model
         require : true
     },
 
-    rate: 
+    rating: 
     {
         value : 
         {

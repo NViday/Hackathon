@@ -1,18 +1,16 @@
 
-
-
 //user_routes
 
+let express = require('express');
+let router = express.Router();
 
-//requirements 
-module.exports = (app) => {
+const controller = require('../controllers/user_controller.js');
 
-    const controller = require('../controllers/user_controller.js');
+//routes
+router.post('/users', controller.user_create);
+router.get('/users/:id', controller.user_get);
+router.post('/users/:id', controller.user_update)
+router.delete('/users/:id',controller.user_delete);
 
-    // todoList Routes
-  
-    app.route('/reviews/:reviewId')
-      .get(controller.review_get)
-      .put(controller.review_update)
-      .delete(controller.review_delete);
-}
+
+module.exports = router;

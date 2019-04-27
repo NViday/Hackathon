@@ -18,6 +18,7 @@ exports.user_create = (req, res) =>
 {
     const newUser= new User(req.body);
     newUser.save(
+
         //callback function
         (err, user)=>
         {
@@ -40,7 +41,7 @@ exports.user_create = (req, res) =>
 //retrieve a user by id
 exports.user_get = (req, res) => 
 {
-    let id= req.params._id; 
+    let id= req.params.id; 
     
     user.findById(id,
         
@@ -65,7 +66,7 @@ exports.user_get = (req, res) =>
 exports.user_update = (req, res) => 
 {
     let updated_user= req.body;
-    let id = req.params._id; 
+    let id = req.params.id; 
 
     user.findByIdAndUpdate( id, 
         
@@ -97,7 +98,7 @@ exports.user_update = (req, res) =>
 exports.user_delete = (req, res) => 
 {
     let updated_user = req.body;
-    let id = req.params._id; 
+    let id = req.params.id; 
     user.findByIdAndUpdate( id, 
     
         updated_user,

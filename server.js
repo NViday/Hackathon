@@ -41,17 +41,14 @@ app.use(
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-//test route
-app.get('/', function(req, res) {
-        res.send('Alife web app is live');
-});
+
 
 //init middleware
-app.use(cors());
-app.use(compression());
-app.use('/public', express.static(path.join(__dirname, './src/routes')));
+//app.use(cors());
+//app.use(compression());
+//app.use('/public', express.static(path.join(__dirname, './src/routes')));
 
-app.use(passport.initialize());
+//app.use(passport.initialize());
 
 
 
@@ -59,11 +56,12 @@ app.use(passport.initialize());
       
 
 
-//routes 
+//routes
+var router = require('./src/routes/*').router;
 
-
+app.use("api/v1/", router);
     
-require('./src/routes/user_routes.js')(app);
+//require('./src/routes/user_routes.js')(app);
 
 //no auth on following routes
 /*
@@ -81,7 +79,7 @@ app.use(
 );
 
 */
-
+/*
 // throw an error for unauthorized access 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
@@ -89,6 +87,7 @@ app.use((err, req, res, next) => {
   }
 }
 );
+*/
 
 
 // Release app

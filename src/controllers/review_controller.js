@@ -11,16 +11,18 @@ let validator = require('validator');
 //custom 
 let logger = require("../utilities/logger");
 const Review = require("../schemas/review_schema");
-
+const User = require("../schemas/user_schema");
+const Doctor = require("../schemas/doctor_schema")
 
 //Create 
 exports.review_create = (req, res) => 
 {
-    const newReview= new Review(req.body);
-    newReview.save(
+    let user_id = req.params.userId;
 
+    User.findById( user_id,
+        
         //callback function
-        (err, review)=>
+        (err, user)=>
         {
             if(err) 
             { 
@@ -28,10 +30,35 @@ exports.review_create = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("a review was successfully created");
-            res.status(200).json(review)
+            if(!user)
+            {
+                logger.error('unrecognized user '+ user_id);
+                res.SendStatus('401');
+            };
+
+            //save review 
+            const newReview= new Review(req.body);
+
+            newReview.save(
+
+            //callback function
+            (err, review)=>
+            {
+                if(err) 
+                { 
+                    logger.error(err);
+                    res.status(500).send(err);
+                };
+
+                logger.verbose("a review was successfully created");
+                res.status(200).json(review)
+            }
+         ); 
         }
-    );    
+    );  
+
+    
+    
        
 };
 
@@ -40,7 +67,9 @@ exports.review_create = (req, res) =>
 //retrieve a list of reviews
 exports.reviews_all = (req, res) => 
 {
-    review.find(
+    Review.find(
+
+        "_id postedBy title rating",
 
         {sort:  ["createdOn", "descending"]},
         
@@ -58,11 +87,12 @@ exports.reviews_all = (req, res) =>
     );    
 };
 
+//retrieve a list of reviews
 exports.reviews_search= (req, res) => 
 {
     let search_keyword = req.params.keyword; 
     
-    review.find(
+    Review.find(
         
         {
             $text: 
@@ -76,6 +106,7 @@ exports.reviews_search= (req, res) =>
             score: {meta: "textScore"}
         },
             
+        "_id postedBy title rating",
 
         //option 
         {sort:  "textScore"},
@@ -95,47 +126,105 @@ exports.reviews_search= (req, res) =>
         );   
 };
 
-
-
-
-
-//retrieve a review by id
-exports.review_get = (req, res) => 
+exports.reviews_doctor_all = (req, res) => 
 {
-    let id= req.params._id; 
-    
-    review.findById(id,
-        
-    //callback function
-    (err, review)=>
-    {
-        if(err) 
-        { 
-            logger.error(err);
-            res.status(500).send(err);
-        };
+    let doctor_id = req.params.doctorId;
 
-        res.status(200).json(review)
-    }
-    );  
+    Doctor.findById( doctor_id,
+        
+        //callback function
+        (err, doctor)=>
+        {
+            if(err) 
+            { 
+                logger.error(err);
+                res.status(500).send(err);
+            };
+
+            if(!doctor)
+            {
+                logger.error('unrecognized user '+ doctor_id);
+                res.SendStatus('401');
+            };
+
+            //find reviews about the doctor
+            Review.find( {about:  doctor_id},
+
+                "_id title rating",
+        
+                {sort:  ["createdOn", "descending"]},
+                
+                //callback function
+                (err, review_list)=>
+                {
+                    if(err) 
+                    { 
+                        logger.error(err);
+                        res.status(500).send(err);
+                    };
+        
+                    res.status(200).json(review_list)
+                }
+            ); 
+
+
+
+        }
+    );
+     
 };
 
 
-
-
-//Update
-exports.review_update = (req, res) => 
+//retrieve reviews for user
+exports.review_user_all = (req, res) => 
 {
-    let updated_review= req.body;
-    let id = req.params._id; 
+    let user_id = req.params.userId;
 
-    review.findByIdAndUpdate( id, 
+    User.findById( user_id,
         
-        //full / partial update 
-        updated_review, 
+        //callback function
+        (err, user)=>
+        {
+            if(err) 
+            { 
+                logger.error(err);
+                res.status(500).send(err);
+            };
 
-        //options 
-        {new : true, runValidators: true, upsert : true } ,
+            if(!user)
+            {
+                logger.error('unrecognized user '+ user_id);
+                res.SendStatus('401');
+            };
+    
+            // find users' reviews
+            Review.find({postedBy: user_id},
+
+            "_id title rating",
+
+            {sort:  ["createdOn", "descending"]},
+        
+            //callback function
+            (err, review)=>
+            {
+                if(err) 
+                { 
+                    logger.error(err);
+                    res.status(500).send(err);
+                };
+
+                res.status(200).json(review)
+            });
+        }
+    );
+};
+
+
+exports.review_get = (req, res) => 
+{
+    let id = req.params.id;
+    
+    Review.findById(id,
 
         //callback function
         (err, review)=>
@@ -146,32 +235,99 @@ exports.review_update = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("review "+ id + ": was successfully updated");
-            res.status(200).json(review);
+            res.status(200).json(review)
         }
     );
-    
 };
 
+//Update
+exports.review_update = (req, res) => 
+{
+    let user_id = req.params.userId;
+
+    User.findById( user_id,
+        
+        //callback function
+        (err, user)=>
+        {
+            if(err) 
+            { 
+                logger.error(err);
+                res.status(500).send(err);
+            };
+
+            if(!user)
+            {
+                logger.error('unrecognized user '+ user_id);
+                res.SendStatus('401');
+            };
+
+            let updated_review= req.body;
+            let review_id = req.params.reviewId; 
+
+            review.findOneAndUpdate( {_id: review_id, postedBy: user_id}, 
+        
+            //full / partial update 
+            updated_review, 
+
+            //options 
+            {new : true, runValidators: true, upsert : true } ,
+
+            //callback function
+            (err, review)=>
+            {
+                if(err) 
+                { 
+                    logger.error(err);
+                    res.status(500).send(err);
+                };
+
+                logger.verbose("review "+ id + ": was successfully updated");
+                res.status(200).json(review);
+            }
+            );
+        }
+    );
+};
 
 
 //Delete
 exports.review_delete = (req, res) => 
 {
-    let id = req.params._id; 
-    review.findByIdAndRemove( id, 
-    
-    //callback function
-    (err, review)=>
-    {
-        if(err) 
-        { 
-            logger.error(err);
-            res.status(500).send(err);
-        };
+    let user_id = req.params.userId;
 
-        logger.error("review "+ id + ":  was successfully deleted");
-        res.SendStatus(204)
-    });
+    User.findById( user_id,
+        
+        //callback function
+        (err, user)=>
+        {
+            if(err) 
+            { 
+                logger.error(err);
+                res.status(500).send(err);
+            };
+
+            if(!user)
+            {
+                logger.error('unrecognized user '+ user_id);
+                res.SendStatus('401');
+            };
+
+            let id = req.params.reviewId; 
+            review.findOneAndRemove( {_id: id, postedBy: user_id} , 
+            //callback function
+            (err, review)=>
+            {
+                if(err) 
+                { 
+                    logger.error(err);
+                    res.status(500).send(err);
+                };
+
+                logger.error("review "+ id + ":  was successfully deleted");
+                res.SendStatus(204)
+            });
+        }
+    );
 
 };
