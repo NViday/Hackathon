@@ -45,7 +45,7 @@ let review_schema = new mongoose.model
 
         tags:
         {
-            type: string ,
+            type: String ,
             require : true
         },
 
