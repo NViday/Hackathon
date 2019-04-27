@@ -54,7 +54,7 @@ app.use(bodyParser.json());
 
 //routes
 
-app.use("api/v1/", require('./src/routes'));
+app.use("/", require('./src/routes'));
 app.use("/users", require('./src/routes/user_routes'));
 app.use("/reviews", require('./src/routes/review_routes'));
 app.use("/doctors", require('./src/routes/doctor_routes'));
@@ -66,7 +66,7 @@ app.use("/diseases", require('./src/routes/disease_routes'));
 require('./utils/database');
 
 // Release app
-app.listen(config.server_port, (err) => {
+app.listen(process.env.PORT || 5000, (err) => {
   if (err) {
 
         logger.info("error is coming your way");
