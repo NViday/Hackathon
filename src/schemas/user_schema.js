@@ -325,19 +325,19 @@ user_schema.methods.getInitials = () =>
 {
     return (this.names.firstName[0] + this.names.lastName[0]).toUppercase()
 
-}
+};
 
 user_schema.methods.getCapitalizedFName = () =>
 {
     return helper.capitalize(this.names.firstName)
-} 
+}; 
 
 user_schema.methods.getCapitalizedLName = () =>
 {
     return helper.capitalize(this.names.lastName)
-}
+};
 
-user_schema.methods.comparePassword() = (candidatePassword, cb) => 
+user_schema.methods.comparePassword = (candidatePassword, cb) => 
 {
     bcrypt.compare( 
         CandidatePassword, 
