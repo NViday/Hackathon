@@ -15,29 +15,14 @@ let express = require('express'),
 
 //custom modules 
 //let config = require("./src/config");
-//let logger = require("./src/utilities/logger");
+let logger = require("./src/utilities/logger");
 
 //init app
 let app = express();
 
 
 
-//set app secret 
-//app.set('superSecret', config.secret_code);
 
-/*
-//log
-// init my winston middleware
-// pass it my winston logger 
-app.use(
-        express_winston.logger({
-                transports: [logger],
-                meta: false,
-                expressFormat : true,
-                colorize: true,
-        }),
-);
-*/
 
 // init bodyParser for POST info
 app.use(bodyParser.urlencoded({extended: false}));
@@ -77,13 +62,13 @@ app.use("/diseases", require('./src/routes/disease_routes'));
 app.listen(process.env.PORT || 5000, (err) => {
   if (err) {
 
-        console.log("error is coming your way");
+        logger.log("error is coming your way");
         
-        //logger.error(err);
+        logger.error(err);
 
         process.exit(1);
   };
-  console.log("we are live and running ");
+  logger.log("we are live and running ");
 });
 
 

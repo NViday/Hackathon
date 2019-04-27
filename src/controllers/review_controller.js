@@ -50,7 +50,7 @@ exports.review_create = (req, res) =>
                     res.status(500).send(err);
                 };
 
-                logger.verbose("a review was successfully created");
+                logger.log("a review was successfully created");
                 res.status(200).json(review)
             }
          ); 
@@ -282,7 +282,7 @@ exports.review_update = (req, res) =>
                     res.status(500).send(err);
                 };
 
-                logger.verbose("review "+ id + ": was successfully updated");
+                logger.log("review "+ id + ": was successfully updated");
                 res.status(200).json(review);
             }
             );

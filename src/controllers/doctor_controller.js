@@ -27,7 +27,7 @@ exports.doctor_create = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("a doctor profile was successfully created");
+            logger.log("a doctor profile was successfully created");
             res.status(200).json(doctor)
         }
     );    
@@ -180,7 +180,7 @@ exports.doctor_profile_update = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("doctor "+ id + ": profile was successfully updated");
+            logger.log("doctor "+ id + ": profile was successfully updated");
             res.status(200).json(doctor);
         }
     );

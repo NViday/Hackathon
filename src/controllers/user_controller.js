@@ -85,7 +85,7 @@ exports.user_update = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("user "+ id + ": profile was successfully updated");
+            logger.log("user "+ id + ": profile was successfully updated");
             res.status(200).json(user);
         }
     );

@@ -27,7 +27,7 @@ exports.disease_create = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("a disease profile was successfully created");
+            logger.log("a disease profile was successfully created");
             res.status(200).json(disease)
         }
     );    
@@ -152,7 +152,7 @@ exports.disease_update = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("disease "+ id + ": profile was successfully updated");
+            logger.log("disease "+ id + ": profile was successfully updated");
             res.status(200).json(disease);
         }
     );

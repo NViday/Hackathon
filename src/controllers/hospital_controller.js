@@ -28,7 +28,7 @@ exports.hospital_create = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("a hospital profile was successfully created");
+            logger.log("a hospital profile was successfully created");
             res.status(200).json(hospital)
         }
     );    
@@ -151,7 +151,7 @@ exports.hospital_profile_update = (req, res) =>
                 res.status(500).send(err);
             };
 
-            logger.verbose("hospital "+ id + ": profile was successfully updated");
+            logger.log("hospital "+ id + ": profile was successfully updated");
             res.status(200).json(hospital);
         }
     );
