@@ -45,7 +45,7 @@ let user_schema = new mongoose.Schema
 
         isEmailVerified :
         {
-            type : Boolean
+            type : Boolean, default: false
         },
         phoneNumber : 
         { 
@@ -62,7 +62,7 @@ let user_schema = new mongoose.Schema
 
         isPhoneNumberVerified:
         {
-            type : Boolean
+            type : Boolean , default: false
         },
         password : 
         {
@@ -73,7 +73,7 @@ let user_schema = new mongoose.Schema
 
         names : 
         {
-            firstName: 
+            first: 
             { 
                 type: String, 
 
@@ -90,7 +90,7 @@ let user_schema = new mongoose.Schema
 
             }, 
       
-            lastName: 
+            last: 
             { 
                 type: String, 
 
@@ -120,7 +120,7 @@ let user_schema = new mongoose.Schema
 
                 trim : true,
 
-                require : true,
+                //require : true,
 
                 validate : (value) => 
                 {
@@ -209,17 +209,17 @@ let user_schema = new mongoose.Schema
                 } 
             },
 
-            isPOC : {type : Boolean},
+            isPOC : {type : Boolean , default: false},
 
-            isLGBTQ : {type : Boolean}, 
+            isLGBTQ : {type : Boolean , default: false}, 
 
-            isTranssexual : {type : Boolean},
+            isTranssexual : {type : Boolean , default: false},
 
-            hasChildren : {type : Boolean}, 
+            hasChildren : {type : Boolean , default: false}, 
 
             job: 
             {
-                isDoctor : { type : Boolean},
+                isDoctor : { type : Boolean , default: false},
                 doctorID : { type : mongoose.Schema.Types.Mixed},
             },
         },
@@ -231,9 +231,9 @@ let user_schema = new mongoose.Schema
                 String, enum: ['NA', 'Often', 'Regularly'],
             },
 
-            isInsured : { type: Boolean}, 
+            isInsured : { type: Boolean , default: false}, 
 
-            isExpecting : { type : Boolean },       
+            isExpecting : { type : Boolean , default: false},       
         },
 
 
@@ -265,13 +265,9 @@ let user_schema = new mongoose.Schema
         {
             name : {type : String, trim : true},
 
-            id : { type : mongoose.Schema.Types.Mixed },
+            url : {type: String, trim: true},
 
-            profileURL :  {type : String },
-
-            profile : {type : String },
-
-            provider_token : {type : String },
+            id : { type : String, trim:true },
         },
     }
   
@@ -281,7 +277,7 @@ let user_schema = new mongoose.Schema
 //Virtual properties 
 user_schema.virtual('fullName').get(()=> 
 {
-    return helper.capitalize(this.names.firstName) + ' ' + helper.capitalize(this.names.lastName)
+    return helper.capitalize(this.names.first) + ' ' + helper.capitalize(this.names.last)
 }
 );
 
@@ -289,9 +285,9 @@ user_schema.virtual('fullName').get((name)=>
 {
     let result = name.split(' ')
 
-    this.names.firstName = result[0]
+    this.names.first= result[0]
 
-    this.names.lastName = result[1]
+    this.names.last= result[1]
 }
 );
 

@@ -4,7 +4,7 @@
 
 //npm 
 let mongoose = require('mongoose');
-let connectionString =  require('../config').mongo_CS
+let connectionString =  require('../config').mongo_CS;
 
 //custom
 let logger = require('./logger.js')

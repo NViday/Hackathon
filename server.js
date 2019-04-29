@@ -4,36 +4,23 @@
 
 //npm modules
 let express = require('express'),
- passport = require('passport'),
  cors = require('cors'),
  bodyParser = require('body-parser'),
- path = require('path'),
- fs = require('fs'),
- jwt = require('express-jwt'),
- compression = require('compression'),
- express_winston= require('express-winston');
+ compression = require('compression');
 
 //custom modules 
-//let config = require("./src/config");
 let logger = require("./src/utilities/logger");
 
 //init app
 let app = express();
 
 
-
-
-
-// init bodyParser for POST info
+//init middleware
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(compression());
 
-
-
-//init middleware
-//app.use(cors());
-//app.use(compression());
-//app.use(passport.initialize());
 
 
 //init db 
@@ -47,14 +34,14 @@ require("./src/schemas/doctor_schema");
 require("./src/schemas/disease_schema");
 
 //routes
-
+app.use('/auth', require('./src/auth'))
 app.use("/", require('./src/routes'));
 app.use("/users", require('./src/routes/user_routes'));
 app.use("/reviews", require('./src/routes/review_routes'));
 app.use("/doctors", require('./src/routes/doctor_routes'));
 app.use("/hospitals", require('./src/routes/hospital_routes'));
 app.use("/diseases", require('./src/routes/disease_routes'));
-//app.use("/login", require('./src/routes/user_routes'));
+
     
 
 
