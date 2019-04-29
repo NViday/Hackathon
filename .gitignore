@@ -3,3 +3,12 @@
 ################################################################################
 
 /FrontEnd/SeeWell.Core/bin/Debug/netstandard2.0
+/FrontEnd/SeeWell/SeeWell/bin/Debug/netstandard2.0
+/FrontEnd/SeeWell/SeeWell.Android/bin/Debug
+/FrontEnd/SeeWell/SeeWell.Android/obj
+/FrontEnd/SeeWell/SeeWell.iOS/bin/iPhone/Debug
+/FrontEnd/SeeWell/SeeWell.iOS/obj
+/.vs/WellnessHackathon/v16
+/FrontEnd/.vs/SeeWell
+/FrontEnd/SeeWell/SeeWell/obj
+/FrontEnd/SeeWell.Core/obj
