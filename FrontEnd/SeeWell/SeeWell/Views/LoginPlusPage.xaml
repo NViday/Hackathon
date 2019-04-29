@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dataForm="clr-namespace:Syncfusion.XForms.DataForm;assembly=Syncfusion.SfDataForm.XForms"
+             xmlns:syncfusion="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+             x:Class="SeeWell.Views.LoginPlusPage">
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout Spacing="0">
+                <Label Margin="5,25,5,0" FontSize="Large" FontAttributes="Bold" HorizontalTextAlignment="Center"  Text="{Binding WelcomeMessage}"
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand" />
+                <Image Margin="5" HeightRequest="50" WidthRequest="50" HorizontalOptions="Center"  Source="{Binding Avatar}"/>
+                <dataForm:SfDataForm Grid.Row="0" Margin="5"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="dataForm" ValidationMode="LostFocus" LabelPosition="Top"  DataObject="{Binding}" />
+                <Button x:Name="ContinueButton" Text="Continue" Command="{Binding ContinueCommand}"/>
+            </StackLayout>
+            <syncfusion:SfBusyIndicator x:Name="ActivityIndicatorControl"  BackgroundColor="Transparent" TextColor="Lavender"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"  AnimationType="ECG" IsVisible="{Binding IsBusy}" IsBusy="True"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
