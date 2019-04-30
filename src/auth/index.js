@@ -282,7 +282,12 @@ router.post('/register', (req, res)=>
                     
                 });
 
-            logger.log("found user => login the user");
+            };
+
+            if(found_user)
+            {
+
+                logger.log("found user => login the user");
 
             if (!found_user.validPassword(password)) 
             {
@@ -304,9 +309,10 @@ router.post('/register', (req, res)=>
 
             res.status(200).send({ auth: true, token: token });
         
+        }
+            
 
             
-        }
     });
 
 });
