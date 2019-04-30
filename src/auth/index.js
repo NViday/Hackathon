@@ -253,7 +253,6 @@ router.post('/register', (req, res)=>
                 });
 
                 new_user.save(
-        
                     (err, user) => 
                     {
                         if(err) 
@@ -264,7 +263,10 @@ router.post('/register', (req, res)=>
                             auth: false,
                             message: register_message
                   
-                        });;
+                        });
+
+                        logger.log("created user => generating token");
+
 
                         var token = generate_token(user, req.body.device);
 
@@ -282,7 +284,7 @@ router.post('/register', (req, res)=>
 
             logger.log("found user => login the user");
 
-            if (!user_result.validPassword(password)) 
+            if (!found_user.validPassword(password)) 
             {
                 res.status(500).send({
                     error: "incorrect password",
