@@ -16,6 +16,10 @@ const User = require("../schemas/user_schema");
 //helper
 function generate_token (user, device)
 {
+    if( !user || !device )
+    {
+        throw new Error ( "user or device not provided ");
+    }
     let payload = 
     {
         iss: config.api_info,
