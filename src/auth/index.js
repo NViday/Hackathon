@@ -141,7 +141,7 @@ router.post('/google', (res, req) =>
 
                 res.status(200).send({ auth: true, token: token });
     
-            })
+            });
 
         }
         ).catch(err => 
@@ -265,19 +265,20 @@ router.post('/register', (req, res)=>
                             message: register_message
                   
                         });;
-                    };
 
-                    var token = generate_token(user, req.body.device);
+                        var token = generate_token(user, req.body.device);
 
-                    if(!token){
+                        if(!token){
     
-                        res.status(500).send({ auth: false, message:token_failed});
+                            res.status(500).send({ auth: false, message:token_failed});
     
-                    };
+                        };
         
-                    res.status(200).send({ auth: true, token: token });
+                        res.status(200).send({ auth: true, token: token });
+                        };
+
+                    
                 });
-            };
 
             logger.log("found user => login the user");
 
@@ -290,7 +291,7 @@ router.post('/register', (req, res)=>
                   });
             }
 
-            var token = generate_token(user_result, req.body.device);
+            var token = generate_token(found_user, req.body.device);
 
             if(!token){
     
@@ -303,8 +304,8 @@ router.post('/register', (req, res)=>
         
 
             
-
-        });
+        }
+    });
 
 });
 
