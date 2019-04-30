@@ -21,7 +21,7 @@ let token_failed = "token creation failed, try again";
 //helper
 function generate_token (user, device)
 {
-    logger.log('ckecking params');
+    logger.log('ckecking parameters');
 
     if( !user || !device )
     {
@@ -68,7 +68,6 @@ router.post('/google', (res, req) =>
             //login or register user
             User.findOne({'provider.name': provider ,'provider.id':id}, 
             
-            "_id email",
 
             //callback function
             (err, found_user)=>
@@ -154,9 +153,21 @@ router.post('/login', (req, res)=>{
     let username = req.body.username;
     let password = req.body.password;
 
+    //check info 
+    if(!username || !password){ 
+                
+        logger.error("username & password empty");
+        res.status(500).send({
+             error:  " username / password empty",
+             auth: false,
+             message: login_message ,
+         });
+    };
+
+
+    //login user
     User.findOne({email: username},
 
-        "_id email",
             
         (err, user_result) => 
         {
@@ -171,6 +182,7 @@ router.post('/login', (req, res)=>{
                  });
             }
 
+            // no found user
             if (!user_result) 
             {
                 logger.log("user not found");
@@ -181,6 +193,7 @@ router.post('/login', (req, res)=>{
                   });
             }
 
+            // password does not match
             if (!user_result.validPassword(password)) 
             {
                 res.status(500).send({
@@ -190,6 +203,7 @@ router.post('/login', (req, res)=>{
                   });
             }
 
+            logger.log("generating token");
             var token = generate_token(user_result, req.body.device);
 
             if(!token){
@@ -213,10 +227,22 @@ router.post('/login', (req, res)=>{
 router.post('/register', (req, res)=>
 {
     let username = req.body.email;
+    let password = req.body.password;
+
+
+    //check info 
+    if(!username || !password){ 
+                
+        logger.error("username || password empty");
+        res.status(500).send({
+             error: "username / password is empty",
+             auth: false,
+             message: login_message ,
+         });
+    };
+
 
     User.findOne({email: username},
-
-        "_id email",
             
         (err, found_user) => 
         {
@@ -232,7 +258,18 @@ router.post('/register', (req, res)=>
 
             if (!found_user) 
             {
-                logger.log("user not found - create user");
+                logger.log("user not found - creating new user");
+
+                //check info 
+            if(!req.body.firstName || !req.body.lastName){ 
+                
+                logger.error("name cannot be emtpy");
+                res.status(500).send({
+                error: "name cannot be emtpy",
+                auth: false,
+                message: login_message ,
+                });
+            };
 
                  var new_user = new User(
                 {
@@ -242,7 +279,7 @@ router.post('/register', (req, res)=>
                         last : req.body.lastName,
                     },
                     email : username,
-                    password: req.body.password,
+                    password: password,
                 });
 
                 new_user.save(
