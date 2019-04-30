@@ -3,7 +3,6 @@
 
 //requirements
 let mongoose = require('mongoose');
-mongoose.set('useCreateIndex', true)
 let validator = require('validator');
 let timestamps = require('mongoose-timestamp');
 let mongooseStringQuery = require('mongoose-string-query');
@@ -25,6 +24,7 @@ let hospital_schema = new mongoose.Schema
     {
         type : String ,
         require : true,
+        unique : true,
     },
 
     address : 
@@ -159,7 +159,7 @@ hospital_schema.methods.getCapitalizedAddress = ()=>
 //plugins
 hospital_schema.plugin(timestamps);
 hospital_schema.plugin(mongooseStringQuery);
-
+hospital_schema.index({'$**': 'text'});
 
 module.exports = mongoose.model("Hospital", hospital_schema, "hospitals")
 

@@ -6,7 +6,6 @@
 
 //npm
 let mongoose = require('mongoose');
-mongoose.set('useCreateIndex', true)
 let validator = require('validator');
 let timestamps = require('mongoose-timestamp');
 let mongooseStringQuery = require('mongoose-string-query');
@@ -36,15 +35,11 @@ let doctor_schema = new mongoose.Schema
         _full: 
 
         {
-            type : String, 
-            require : true , 
+            type : String,
+
+            //require : true , 
 
             trim : true,
-
-            validate : (value) => 
-            {
-                return !validator.isEmpty(value)
-            } 
         }, 
     },
 
@@ -192,14 +187,15 @@ let doctor_schema = new mongoose.Schema
                     raters : 
                      {
                         type : Number, 
-                        require : true 
+                        require : true, 
+                        default: 0,
                     },
 
                     rating: 
                     {
                         type : Number, 
-                        require : true 
-
+                        require : true ,
+                        default: 0,
                     }
                 },
 
@@ -207,13 +203,16 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
+                        
                         type : Number, 
+                        default: 0,
                         require : true 
                     },
 
                     rating: 
                     {
                         type : Number, 
+                        default: 0,
                         require : true 
 
                     }
@@ -225,12 +224,14 @@ let doctor_schema = new mongoose.Schema
                     raters : 
                      {
                         type : Number, 
+                        default: 0,
                         require : true 
                     },
 
                     rating: 
                     {
                         type : Number, 
+                        default: 0,
                         require : true 
 
                     }
@@ -242,12 +243,14 @@ let doctor_schema = new mongoose.Schema
                     raters : 
                      {
                         type : Number, 
+                        default: 0,
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -258,13 +261,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -274,13 +279,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -290,13 +297,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -307,13 +316,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -323,13 +334,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -339,13 +352,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -356,13 +371,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -373,13 +390,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -389,13 +408,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -406,13 +427,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -424,13 +447,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -441,13 +466,15 @@ let doctor_schema = new mongoose.Schema
                 {
                     raters : 
                      {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
                     },
 
                     rating: 
                     {
-                        type : Number, 
+                        type : Number,
+                        default: 0, 
                         require : true 
 
                     }
@@ -541,4 +568,4 @@ doctor_schema.plugin(mongooseStringQuery);
 doctor_schema.index({'$**': 'text'});
 
 
-module.exports = mongoose.model("Doctor", doctor_schema, "doctors" )
+module.exports = mongoose.model("Doctor", doctor_schema, 'doctors')

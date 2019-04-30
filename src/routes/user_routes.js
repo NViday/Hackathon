@@ -14,15 +14,15 @@ const review_controller = require('..//controllers/review_controller')
 
 //routes
 //router.post('/', user_controller.user_create);
-router.get('/:userId', auth_jwt_verify , user_controller.user_get);
-router.post('/:userId', auth_jwt_verify ,user_controller.user_update)
-router.delete('/:userId', auth_jwt_verify, user_controller.user_delete);
+router.get('/', auth_jwt_verify , user_controller.user_get);
+router.post('/', auth_jwt_verify ,user_controller.user_update)
+router.delete('/', auth_jwt_verify, user_controller.user_delete);
 
 //reviews
-router.post('/:userId/reviews', auth_jwt_verify, review_controller.review_create);
-router.get('/:userId/reviews', auth_jwt_verify, review_controller.review_user_all);
-router.post('/:userId/reviews/:reviewId', auth_jwt_verify, review_controller.review_update);
-router.delete('/:userId/reviews/:reviewId', auth_jwt_verify, review_controller.review_delete);
+router.post('/reviews', auth_jwt_verify, review_controller.review_create);
+router.get('/reviews', auth_jwt_verify, review_controller.review_user_all);
+router.post('/reviews/:reviewId', auth_jwt_verify, review_controller.review_update);
+router.delete('/reviews/:reviewId', auth_jwt_verify, review_controller.review_delete);
 
 
 

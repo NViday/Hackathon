@@ -35,11 +35,11 @@ require("./src/schemas/disease_schema");
 
 
 //populate_data
-/*
+
 populateHospital = require("./src/populate_data/populate_hospitals");
 
 populateHospital();
-*/
+
 //routes
 app.use('/auth', require('./src/auth'))
 app.use("/", require('./src/routes'));
