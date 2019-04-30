@@ -21,7 +21,7 @@ let helper = require('../utilities/helper.js');
 let user_schema = new mongoose.Schema
 (
     {
-        _id : { 
+        user_id : { 
             type : mongoose.Schema.Types.ObjectId,  
             required : true, 
             auto: true, 

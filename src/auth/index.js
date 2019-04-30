@@ -49,7 +49,7 @@ router.post('/google', (res, req) =>
             //login or register user
             User.findOrCreate({'provider.name': provider ,'provider.id':id}, 
             
-            "id email",
+            "_id email",
             //callback function
             (err, found_user)=>
             {
@@ -113,7 +113,7 @@ router.post('/login', (req, res)=>{
 
     User.findOne({email: username},
 
-        " id email",
+        "_id email",
             
         (err, user_result) => 
         {
