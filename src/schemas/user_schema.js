@@ -21,7 +21,7 @@ let helper = require('../utilities/helper.js');
 let user_schema = new mongoose.Schema
 (
     {
-        user_id : { 
+        _id : { 
             type : mongoose.Schema.Types.ObjectId,  
             required : true, 
             auto: true, 
@@ -32,7 +32,7 @@ let user_schema = new mongoose.Schema
         {
             type : String, 
 
-            unique : true, 
+            //unique : true, 
 
             trim : true,
 
@@ -84,7 +84,7 @@ let user_schema = new mongoose.Schema
 
                 trim : true,
 
-                require : true,
+                //require : true,
 
                 validate : (value) => 
                 {
@@ -101,7 +101,7 @@ let user_schema = new mongoose.Schema
 
                 trim : true,
 
-                require : true,
+                //require : true,
 
                 validate : (value) => 
                 {
