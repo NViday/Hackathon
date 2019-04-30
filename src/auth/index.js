@@ -40,16 +40,8 @@ function generate_token (user, device)
         device: device,
     };
     logger.log("creating token with jwt");
-    jwt.sign( payload, config.secret_code, { expiresIn: '30d' }, (err, token )=>
-    {
-        if(err)
-        {
-            logger.log("token creation failed");
-
-            return null;
-        }
-        return token;
-    });
+    
+    return jwt.sign( payload, config.secret_code, { expiresIn: '30d' });
 
 };
 
@@ -212,7 +204,8 @@ router.post('/login', (req, res)=>{
 
             
 
-        });
+        }
+    );
 
 });
 
@@ -288,31 +281,30 @@ router.post('/register', (req, res)=>
 
                 logger.log("found user => login the user");
 
-            if (!found_user.validPassword(password)) 
-            {
-                res.status(500).send({
-                    error: "incorrect password",
-                    auth: false,
-                    message: login_message
-                  });
-            }
+                if (!found_user.validPassword(password)) 
+                {
+                    res.status(500).send({
+                        error: "incorrect password",
+                        auth: false,
+                        message: login_message
+                    });
+                }
 
-            var token = generate_token(found_user, req.body.device);
+                var token = generate_token(found_user, req.body.device);
 
-            if(!token){
+                if(!token){
     
-                res.status(500).send(
+                    res.status(500).send(
                     { auth: false, message: token_failed});
 
-            };
+                };
 
-            res.status(200).send({ auth: true, token: token });
+                res.status(200).send({ auth: true, token: token });
         
+            }
+              
         }
-            
-
-            
-    });
+    );
 
 });
 
