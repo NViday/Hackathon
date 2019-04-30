@@ -1,7 +1,7 @@
 
 
 //auth
-
+let mongoose = require('mongoose');
 let express = require('express');
 let router = express.Router();
 let jwt = require('jsonwebtoken');
