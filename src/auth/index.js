@@ -42,7 +42,7 @@ function generate_token (user, device)
         return token;
     });
 
-}
+};
 
 
 
