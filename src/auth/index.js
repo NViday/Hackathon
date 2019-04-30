@@ -263,7 +263,8 @@ router.post('/register', (req, res)=>
                             auth: false,
                             message: register_message
                   
-                        });
+                            });
+                        };
 
                         logger.log("created user => generating token");
 
@@ -277,9 +278,7 @@ router.post('/register', (req, res)=>
                         };
         
                         res.status(200).send({ auth: true, token: token });
-                        };
-
-                    
+                        
                 });
 
             };
