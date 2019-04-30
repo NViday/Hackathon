@@ -21,10 +21,17 @@ let token_failed = "token creation failed, try again";
 //helper
 function generate_token (user, device)
 {
+    logger.log('ckecking params');
+
     if( !user || !device )
     {
+        logger.log("user or device null");
+
         return null;
     }
+
+    logger.log("generating payload");
+
     let payload = 
     {
         iss: config.api_info,
@@ -32,10 +39,13 @@ function generate_token (user, device)
         email : user.email,
         device: device,
     };
+    logger.log("creating token with jwt");
     jwt.sign( payload, config.secret_code, { expiresIn: '30d' }, (err, token )=>
     {
         if(err)
         {
+            logger.log("token creation failed");
+
             return null;
         }
         return token;
@@ -64,7 +74,7 @@ router.post('/google', (res, req) =>
             const id = payload['sub'];
 
             //login or register user
-            User.findOrCreate({'provider.name': provider ,'provider.id':id}, 
+            User.findOne({'provider.name': provider ,'provider.id':id}, 
             
             "_id email",
 
@@ -100,7 +110,7 @@ router.post('/google', (res, req) =>
 
                     new_user.save( 
                         //callback function
-                        (err)=>
+                        (err, user)=>
                         {
                             if(err) 
                             { 
@@ -111,6 +121,8 @@ router.post('/google', (res, req) =>
                                     message: google_message
                                 });
                             };
+
+                            found_user = user;
                         }
                     );  
                 };
@@ -150,7 +162,7 @@ router.post('/login', (req, res)=>{
     let username = req.body.username;
     let password = req.body.password;
 
-    User.findOrCreate({email: username},
+    User.findOne({email: username},
 
         "_id email",
             
@@ -158,6 +170,7 @@ router.post('/login', (req, res)=>{
         {
             if (err ) 
             { 
+                
                 logger.error(err);
                 res.status(500).send({
                      error: err,
@@ -168,6 +181,7 @@ router.post('/login', (req, res)=>{
 
             if (!user_result) 
             {
+                logger.log("user not found");
                 res.status(500).send({
                     error: "user not found",
                     auth: false,
@@ -188,6 +202,7 @@ router.post('/login', (req, res)=>{
 
             if(!token){
     
+                logger.log("checking for null token");
                 res.status(500).send(
                     { auth: false, message: token_failed});
 
@@ -206,9 +221,7 @@ router.post('/register', (req, res)=>
 {
     let username = req.body.email;
 
-    var hasCreatedNewUser = false;
-
-    User.findOrCreate({email: username},
+    User.findOne({email: username},
 
         "_id email",
             
@@ -224,18 +237,10 @@ router.post('/register', (req, res)=>
                   });
             }
 
-            if(found_user && !hasCreatedNewUser)
-            {
-                res.status(500).send({
-                    auth: false,
-                    message: 'account exist already'
-                });
-            }
-
             if (!found_user) 
             {
+                logger.log("user not found - create user");
 
-                hasCreatedNewUser = true;
                  var new_user = new User(
                 {
                     names : 
@@ -249,15 +254,15 @@ router.post('/register', (req, res)=>
 
                 new_user.save(
         
-                (err, user) => 
-                {
-                    if(err) 
-                    { 
-                        logger.error(err);
-                        res.status(500).send({
-                        error : err,
-                        auth: false,
-                        message: register_message
+                    (err, user) => 
+                    {
+                        if(err) 
+                        { 
+                            logger.error(err);
+                            res.status(500).send({
+                            error : err,
+                            auth: false,
+                            message: register_message
                   
                         });;
                     };
@@ -274,6 +279,27 @@ router.post('/register', (req, res)=>
                 });
             };
 
+            logger.log("found user => login the user");
+
+            if (!user_result.validPassword(password)) 
+            {
+                res.status(500).send({
+                    error: "incorrect password",
+                    auth: false,
+                    message: login_message
+                  });
+            }
+
+            var token = generate_token(user_result, req.body.device);
+
+            if(!token){
+    
+                res.status(500).send(
+                    { auth: false, message: token_failed});
+
+            };
+
+            res.status(200).send({ auth: true, token: token });
         
 
             
