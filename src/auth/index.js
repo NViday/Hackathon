@@ -148,13 +148,17 @@ router.post('/login', (req, res)=>{
                   });
             }
 
-            var token = generate_token(user_result, req.body.device).catch( error=>{
+            generate_token(user_result, req.body.device).then(token =>
+                {
+                    res.status(200).send({ auth: true, token: token });
+
+                }).catch( error=>{
 
                 res.status(500).send({err: error, auth: false, message: 'failed login, try again'});
 
             });
 
-            res.status(200).send({ auth: true, token: token });
+            
 
         });
 
