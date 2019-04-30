@@ -61,11 +61,6 @@ var review_schema = new mongoose.Schema
         type : String, 
 
             require : true,
-
-            validate : (value) => 
-            {
-                return validator.isEmail(value)
-            } 
     },
 
 
@@ -75,11 +70,6 @@ var review_schema = new mongoose.Schema
 
 
         require : true,
-
-        validate : (value) => 
-        {
-            return validator.isEmail(value)
-        } 
     },
 
     pictures_uri : 

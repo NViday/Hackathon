@@ -42,10 +42,10 @@ populateHospital();
 
 populateDoctor = require("./src/populate_data/populate_doctors");
 populateDoctor();
-
+*/
 populateReview = require("./src/populate_data/populate_review");
 populateReview();
-*/
+
 //routes
 app.use('/auth', require('./src/auth'))
 app.use("/", require('./src/routes'));
