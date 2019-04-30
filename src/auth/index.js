@@ -13,12 +13,18 @@ let logger = require("../utilities/logger");
 const User = require("../schemas/user_schema");
 
 
+//error
+let google_message = 'failed login with google, try again';
+let login_message = 'failed login, try again';
+let register_message = 'failed register, try again';
+let token_failed = "token creation failed, try again";
+
 //helper
 function generate_token (user, device)
 {
     if( !user || !device )
     {
-        throw new Error ( "user or device not provided ");
+        return null;
     }
     let payload = 
     {
@@ -27,7 +33,14 @@ function generate_token (user, device)
         email : user.email,
         device: device,
     };
-    return jwt.sign( payload, config.secret_code, { expiresIn: '30d' });
+    jwt.sign( payload, config.secret_code, { expiresIn: '30d' }, (err, token )=>
+    {
+        if(err)
+        {
+            return null;
+        }
+        return token;
+    });
 
 }
 
@@ -45,7 +58,7 @@ router.post('/google', (res, req) =>
                 res.status(500).send({
                     error: "payload is empty",
                     auth: false,
-                    message: 'failed authentification, try again'
+                    message: google_message
                   });
             };
 
@@ -55,13 +68,18 @@ router.post('/google', (res, req) =>
             User.findOrCreate({'provider.name': provider ,'provider.id':id}, 
             
             "_id email",
+
             //callback function
             (err, found_user)=>
             {
                 if(err) 
                 { 
                     logger.error(err);
-                    res.status(500).send(err);
+                    res.status(500).send({
+                        error: err,
+                        auth: false,
+                        message: google_message
+                      });
                 };
 
                 if(!found_user)
@@ -87,30 +105,42 @@ router.post('/google', (res, req) =>
                         {
                             if(err) 
                             { 
-                                logger.error(err);
-                                res.status(500).send(err);
+                               logger.error(err);
+                               res.status(500).send({
+                                    error: err,
+                                    auth: false,
+                                    message: google_message
+                                });
                             };
                         }
                     );  
                 };
 
-                generate_token(found_user, req.body.device).catch( error=>{
-    
-                    res.status(500).send({err: error, auth: false, message: 'failed login, try again'});
-    
-                });
+
+                //generate token 
+
+                var token = generate_token(found_user, req.body.device);
+                
+                if(!token){
+                    res.status(500).send({
+                         auth: false,
+                         message: token_failed
+                     });
+                };
 
                 res.status(200).send({ auth: true, token: token });
     
-            }
-            
-            )
+            })
 
         }
         ).catch(err => 
             {
                 logger.error(err);
-                res.status(500).json(err);
+                res.status(500).send({
+                     error: err,
+                     auth: false,
+                     message: google_message
+                 });
             }
         );
 });
@@ -121,39 +151,48 @@ router.post('/login', (req, res)=>{
     let username = req.body.username;
     let password = req.body.password;
 
-    User.findOne({email: username},
+    User.findOrCreate({email: username},
 
         "_id email",
             
         (err, user_result) => 
         {
-            if (err) 
+            if (err ) 
             { 
                 logger.error(err);
-                res.status(500).json(err);
+                res.status(500).send({
+                     error: err,
+                     auth: false,
+                     message: login_message
+                 });
             }
 
             if (!user_result) 
             {
                 res.status(500).send({
+                    error: "user not found",
                     auth: false,
-                    message: 'no user found'
-                });
+                    message: login_message
+                  });
             }
 
             if (!user_result.validPassword(password)) 
             {
                 res.status(500).send({
+                    error: "incorrect password",
                     auth: false,
-                    message: 'incorrect password'
+                    message: login_message
                   });
             }
 
-            generate_token(user_result, req.body.device).catch( error=>{
+            var token = generate_token(user_result, req.body.device);
 
-                res.status(500).send({err: error, auth: false, message: 'failed login, try again'});
+            if(!token){
+    
+                res.status(500).send(
+                    { auth: false, message: token_failed});
 
-            });
+            };
 
             res.status(200).send({ auth: true, token: token });
 
@@ -166,43 +205,78 @@ router.post('/login', (req, res)=>{
 
 router.post('/register', (req, res)=>
 {
+    let username = req.body.email;
 
-    var new_user = new User(
-        {
-            names : {
-                first: req.body.firstName,
-                last : req.body.lastName,
-            },
-            email : req.body.email,
-            password: req.body.password,
-        },
-    );
+    User.findOrCreate({email: username},
 
-    new_user.save(
-        
-        (err, user) => 
+        "_id email",
+            
+        (err, found_user) => 
         {
-            if(err) 
+            if (err) 
             { 
                 logger.error(err);
                 res.status(500).send({
-                    error : err,
+                    error: err,
                     auth: false,
-                    message: 'failed registration, try again'
+                    message: register_message
+                  });
+            }
+
+            if(found_user)
+            {
+                res.status(500).send({
+                    auth: false,
+                    message: 'account exist already'
+                });
+            }
+
+            if (!found_user) 
+            {
+
+                 var new_user = new User(
+                {
+                    names : 
+                    {
+                        first: req.body.firstName,
+                        last : req.body.lastName,
+                    },
+                    email : username,
+                    password: req.body.password,
+                });
+
+                new_user.save(
+        
+                (err, user) => 
+                {
+                    if(err) 
+                    { 
+                        logger.error(err);
+                        res.status(500).send({
+                        error : err,
+                        auth: false,
+                        message: register_message
                   
-                });;
+                        });;
+                    };
+
+                    var token = generate_token(user, req.body.device);
+
+                    if(!token){
+    
+                        res.status(500).send({ auth: false, message:token_failed});
+    
+                    };
+        
+                    res.status(200).send({ auth: true, token: token });
+                });
             };
 
-            generate_token(new_user, req.body.device).catch( error=>{
+        
 
-                res.status(500).send({err: error, auth: false, message: 'failed login, try again'});
+            
 
-            });
-
-            res.status(200).send({ auth: true, token: token });
-        }
-
-    )
+        });
 
 });
 
