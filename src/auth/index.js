@@ -177,7 +177,7 @@ router.post('/register', (req, res)=>
                 });;
             };
 
-            var token = generate_token(user_result, req.body.device);
+            var token = generate_token(user, req.body.device);
 
             res.status(200).send({ auth: true, token: token });
         }
