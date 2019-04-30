@@ -1,6 +1,6 @@
 
 //populate_hospital
-
+let logger = require("../utilities/logger");
 let Hospital = require('../schemas/hospital_schema'); 
 
 let Seattle = {
