@@ -40,7 +40,7 @@ exports.hospital_create = (req, res) =>
 //retrieve a list of hospitals
 exports.hospitals_all = (req, res) => 
 {
-    Hospital.find(
+    Hospital.find( {},
 
     //projections
     '_id  name address ratings',

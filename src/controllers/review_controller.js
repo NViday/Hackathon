@@ -67,7 +67,7 @@ exports.review_create = (req, res) =>
 //retrieve a list of reviews
 exports.reviews_all = (req, res) => 
 {
-    Review.find(
+    Review.find( {},
 
         "_id postedBy title rating",
 

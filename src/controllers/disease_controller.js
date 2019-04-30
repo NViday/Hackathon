@@ -39,7 +39,7 @@ exports.disease_create = (req, res) =>
 //retrieve a list of diseases
 exports.diseases_all = (req, res) => 
 {
-    disease.find(
+    disease.find( {},
 
         {sort:  ["name._current", "ascending"]},
         

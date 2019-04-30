@@ -39,7 +39,7 @@ exports.doctor_create = (req, res) =>
 //retrieve a list of doctors
 exports.doctors_all = (req, res) => 
 {
-    Doctor.find(
+    Doctor.find( {},
 
         '_id  title specialities names ratings',
 
