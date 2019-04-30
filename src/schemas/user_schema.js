@@ -22,8 +22,7 @@ let user_schema = new mongoose.Schema
 (
     {
         _id : { 
-            type : mongoose.Schema.Types.ObjectId, 
-            index : true, 
+            type : mongoose.Schema.Types.ObjectId,  
             required : true, 
             auto: true, 
         },

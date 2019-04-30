@@ -23,7 +23,6 @@ let doctor_schema = new mongoose.Schema
 
     _id :{ 
         type : mongoose.Schema.Types.ObjectId, 
-        index : true, 
         required : true, 
         auto: true, 
     },
