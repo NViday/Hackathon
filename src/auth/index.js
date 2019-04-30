@@ -43,6 +43,7 @@ router.post('/google', (res, req) =>
             if(!payload)
             {
                 res.status(500).send({
+                    error: "payload is empty",
                     auth: false,
                     message: 'failed authentification, try again'
                   });
@@ -143,7 +144,11 @@ router.post('/login', (req, res)=>{
                   });
             }
 
-            var token = generate_token(user_result, req.body.device);
+            var token = generate_token(user_result, req.body.device).catch( (error)=>{
+
+                res.status(500).send({err: error, auth: false, message: 'failed registration, try again'});
+
+            });
 
             res.status(200).send({ auth: true, token: token });
 
