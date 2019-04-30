@@ -210,6 +210,30 @@ let Chi = new Doctor({
 });
 
 
+var doctors = [Holns, Chi];
+
+function generateDoctor()
+{
+    doctors.forEach((entry)=>
+{
+
+    entry.save(
+        (err, user) =>
+        {
+            if(err)
+            {
+                logger.error("saving "+entry.name + "failed. err "+ err);
+            }
+            logger.error("saving "+entry.name + "successful");
+        }
+    )
+});
+};
+
+
+
+module.exports = generateDoctor;
+
 
 
 
