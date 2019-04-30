@@ -4,11 +4,9 @@
 
 module.exports = {
 
-    mongo_CS: process.env.MONGO_CONNECTION_STRING || "mongodb+srv://dbAdmin:vv7HDfvAYkfnVKbi@cluster0-ydbjm.gcp.mongodb.net/alifedb", 
+    local_mongo : "mongodb+srv://dbAdmin:vv7HDfvAYkfnVKbi@cluster0-ydbjm.gcp.mongodb.net/alifedb",
 
-    env: process.env.APP_ENV || 'development',
-
-    server_port : process.env.PORT || 5000,
+    mongo_CS: process.env.MONGO_CONNECTION_STRING || local_mongo, 
 
     //real_email_key: process.env.REALEMAIL_API_KEY ,
 

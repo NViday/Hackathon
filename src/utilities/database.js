@@ -4,7 +4,6 @@
 
 //npm 
 let mongoose = require('mongoose');
-let connectionString =  require('../config').mongo_CS;
 
 //custom
 let logger = require('./logger.js')
@@ -21,7 +20,7 @@ class Database
    } 
   _connect()
   {
-    mongoose.connect(connectionString, {useNewUrlParser: true})
+    mongoose.connect(process.env.MONGO_CONNECTION_STRING, {useNewUrlParser: true})
       .then(()=> 
        {
           logger.log('connection to db successful') ;

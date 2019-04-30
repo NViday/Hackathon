@@ -7,7 +7,7 @@ const { OAuth2Client } = require( 'google-auth-library' );
 
 
 
-var client = new OAuth2Client( config.google_clientID, config.google_secret, '' );
+var client = new OAuth2Client(  process.env.GOOGLE_CLIENT_ID,  process.env.GOOGLE_CLIENT_SECRET, '' );
 
 
 async function verify_google_token(token){
@@ -18,7 +18,7 @@ async function verify_google_token(token){
     }
 
     //verify and decode token
-    ticket = await client.verifyIdToken( { idToken: token, audience: config.google_clientID } );
+    ticket = await client.verifyIdToken( { idToken: token, audience: process.env.GOOGLE_CLIENT_ID} );
 
     if(! ticket)
     {
