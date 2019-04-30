@@ -94,7 +94,11 @@ router.post('/google', (res, req) =>
                     );  
                 };
 
-                var token = generate_token(found_user, req.body.device);
+                var token = generate_token(user_result, req.body.device).catch( error=>{
+
+                    res.status(500).send({err: error, auth: false, message: 'failed registration/login with google, try again'});
+    
+                });
     
                 res.status(200).send({ auth: true, token: token });
             }
@@ -144,9 +148,9 @@ router.post('/login', (req, res)=>{
                   });
             }
 
-            var token = generate_token(user_result, req.body.device).catch( (error)=>{
+            var token = generate_token(user_result, req.body.device).catch( error=>{
 
-                res.status(500).send({err: error, auth: false, message: 'failed registration, try again'});
+                res.status(500).send({err: error, auth: false, message: 'failed login, try again'});
 
             });
 
@@ -186,8 +190,11 @@ router.post('/register', (req, res)=>
                 });;
             };
 
-            var token = generate_token(user, req.body.device);
+            var token = generate_token(user_result, req.body.device).catch( error=>{
 
+                res.status(500).send({err: error, auth: false, message: 'failed registration, try again'});
+
+            });
             res.status(200).send({ auth: true, token: token });
         }
 

@@ -15,8 +15,6 @@ let helper = require('../utilities/helper.js');
 
 
 //Constants 
-//let passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])");
-
 //Schema
 let user_schema = new mongoose.Schema
 (
