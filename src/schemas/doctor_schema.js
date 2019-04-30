@@ -21,8 +21,12 @@ let helper = require('../utilities/helper.js');
 let doctor_schema = new mongoose.Schema
 ({
 
-    _id :{ type : mongoose.Schema.Types.ObjectId },
-    
+    _id :{ 
+        type : mongoose.Schema.Types.ObjectId, 
+        index : true, 
+        required : true, 
+        auto: true, 
+    },
     title : 
     {
         _abbreviation : 

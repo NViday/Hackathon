@@ -16,8 +16,12 @@ let helper = require('../utilities/helper.js');
 let hospital_schema = new mongoose.Schema
 ({
 
-    _id :{ type : mongoose.Schema.Types.ObjectId },
-
+    _id :{ 
+        type : mongoose.Schema.Types.ObjectId, 
+        index : true, 
+        required : true, 
+        auto: true, 
+    },
     name : 
     {
         type : String ,

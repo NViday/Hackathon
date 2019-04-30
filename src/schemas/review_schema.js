@@ -19,7 +19,12 @@ let mongooseStringQuery = require('mongoose-string-query');
 //Schema
 var review_schema = new mongoose.Schema
 ({
-    _id : { type : mongoose.Schema.Types.ObjectId },
+    _id : { 
+        type : mongoose.Schema.Types.ObjectId, 
+        index : true, 
+        required : true, 
+        auto: true, 
+    },
 
     postedBy : 
     {
