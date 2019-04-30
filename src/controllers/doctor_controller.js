@@ -43,7 +43,7 @@ exports.doctors_all = (req, res) =>
 
         '_id  title specialities names ratings',
 
-        {sort:  ["ratings._avg.rating", "descending"]},
+        //{sort:  ["ratings._avg.rating", "descending"]},
         
         //callback function
         (err, doctor_list)=>

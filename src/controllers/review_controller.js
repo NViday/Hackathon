@@ -71,7 +71,7 @@ exports.reviews_all = (req, res) =>
 
         "_id postedBy title rating",
 
-        {sort:  ["createdOn", "descending"]},
+        //{sort:  ["createdOn", "descending"]},
         
         //callback function
         (err, review_list)=>

@@ -39,8 +39,10 @@ require("./src/schemas/disease_schema");
 populateHospital = require("./src/populate_data/populate_hospitals");
 
 populateHospital();
-*/
+
 populateDoctor = require("./src/populate_data/populate_doctors");
+*/
+
 
 populateDoctor();
 

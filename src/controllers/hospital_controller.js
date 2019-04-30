@@ -45,7 +45,7 @@ exports.hospitals_all = (req, res) =>
     //projections
     '_id  name address ratings',
 
-        {sort:  ["ratings._avg.rating", "descending"]},
+        //{sort:  ["ratings._avg.rating", "descending"]},
         
         //callback function
         (err, hospital_list)=>
