@@ -9,6 +9,7 @@ let mongoose = require('mongoose');
 let bcrypt = require('mongoose-bcrypt');
 let timestamps = require('mongoose-timestamp');
 let mongooseStringQuery = require('mongoose-string-query');
+let mongooseFindOrCreate = require('mongoose-findorcreate');
 
 //custom
 let helper = require('../utilities/helper.js');
@@ -284,11 +285,15 @@ user_schema.virtual('fullName').get(()=>
 
 user_schema.virtual('fullName').get((name)=> 
 {
-    let result = name.split(' ')
+    if(name)
+    {
+        let result = name.split(' ')
 
-    this.names.first= result[0]
+        this.names.first= result[0]
 
-    this.names.last= result[1]
+        this.names.last= result[1]
+    };
+    
 }
 );
 
@@ -299,15 +304,18 @@ user_schema.virtual('fullAddress').get( ()=>
 
 user_schema.virtual('fullAddress').set((full_address)=> 
 {
-    let result = full_address.split(' , ')
+    if( result)
+    {
+        let result = full_address.split(' , ');
 
-    this.address.city = result[0]
+    this.address.city = result[0];
 
-    this.address.state = result[1]
+    this.address.state = result[1];
+    this.address.zipcode = Number(result[2]);
 
-    this.address.zipcode = Number(result[2])
-
-    this.address.country = result[3]
+    this.address.country = result[3];
+    }
+    
 }
 );
 
@@ -368,6 +376,6 @@ user_schema.methods.comparePassword = (candidatePassword, cb) =>
 user_schema.plugin(bcrypt);
 user_schema.plugin(timestamps);
 user_schema.plugin(mongooseStringQuery);
-
+user_schema.plugin(mongooseFindOrCreate);
 
 module.exports = mongoose.model('User', user_schema, 'users')

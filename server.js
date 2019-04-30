@@ -43,7 +43,10 @@ app.use("/hospitals", require('./src/routes/hospital_routes'));
 app.use("/diseases", require('./src/routes/disease_routes'));
 
     
-
+process.on('uncaughtException', function(err) {
+  // handle the error safely
+  logger.error(err)
+})
 
 // Release app
 app.listen(process.env.PORT || 5000, (err) => {
