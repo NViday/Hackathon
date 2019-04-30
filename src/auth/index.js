@@ -194,14 +194,19 @@ router.post('/login', (req, res)=>{
             }
 
             // password does not match
-            if (!user_result.comparePassword(password)) 
+            found_user.verifyPassword(password, (valid)=>
             {
-                res.status(500).send({
-                    error: "incorrect password",
-                    auth: false,
-                    message: login_message
-                  });
-            }
+                if(!valid)
+                {
+                    res.status(500).send({
+                        error: "incorrect password",
+                        auth: false,
+                        message: login_message
+                    });
+                };
+               
+            });
+
 
             logger.log("generating token");
             var token = generate_token(user_result, req.body.device);
@@ -318,14 +323,18 @@ router.post('/register', (req, res)=>
 
                 logger.log("found user => login the user");
 
-                if (!found_user.validPassword(password)) 
+                found_user.verifyPassword(password, (valid)=>
                 {
-                    res.status(500).send({
-                        error: "incorrect password",
-                        auth: false,
-                        message: login_message
-                    });
-                }
+                    if(!valid)
+                    {
+                        res.status(500).send({
+                            error: "incorrect password",
+                            auth: false,
+                            message: login_message
+                        });
+                    };
+                   
+                });
 
                 var token = generate_token(found_user, req.body.device);
 
