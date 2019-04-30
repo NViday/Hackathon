@@ -6,7 +6,7 @@
 //npm 
 let validator = require('validator');
 let mongoose = require('mongoose');
-let bcrypt = require('bcrypt');
+//let bcrypt = require('bcrypt');
 let mongooseBcrypt = require('mongoose-bcrypt');
 let timestamps = require('mongoose-timestamp');
 let mongooseStringQuery = require('mongoose-string-query');
@@ -342,6 +342,8 @@ user_schema.methods.getCapitalizedLName = () =>
     return helper.capitalize(this.names.lastName)
 };
 
+/*
+
 user_schema.methods.comparePassword = (candidatePassword, cb) => 
 {
     bcrypt.compare( 
@@ -353,6 +355,8 @@ user_schema.methods.comparePassword = (candidatePassword, cb) =>
             cb( null, isMatch);
         });
 }
+
+*/
 
 
 //Hook : Pre  
