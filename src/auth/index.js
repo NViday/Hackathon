@@ -29,7 +29,7 @@ function generate_token (user, device)
 
 
 
-router.post('/google/', (res, req) =>
+router.post('/google', (res, req) =>
 {
     let provider = 'google';
     const token = req.body.google_token;
@@ -106,7 +106,7 @@ router.post('/google/', (res, req) =>
 });
 
 
-router.post('login', (req, res)=>{
+router.post('/login', (req, res)=>{
 
     let username = req.body.username;
     let password = req.body.password;
@@ -170,6 +170,7 @@ router.post('/register', (req, res)=>
             { 
                 logger.error(err);
                 res.status(500).send({
+                    error : err,
                     auth: false,
                     message: 'failed registration, try again'
                   
