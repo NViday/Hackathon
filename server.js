@@ -55,7 +55,7 @@ process.on('unhandledRejection', (reason, p)=>{
 })
 .on('uncaughtException', (reason) => {
   // handle the error safely
-    logger.error(err);
+    logger.error(reason);
 
     process.exit(1);
 })
