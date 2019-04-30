@@ -13,28 +13,13 @@ function generateReview()
     {
         let newReview = new Review({
 
-            postedBy : 
-    {
-        type : mongoose.Schema.Types.ObjectId, 
+            postedBy : "5cc824fa1f1dec00040eed80",
 
-        require : true
-    },
-
-    about : 
-    {
-        type : mongoose.Schema.Types.ObjectId, 
-        
-        require : true
-    },
+    about : doctor_id[entry],
 
     rating: 
     {
-        value : 
-        {
-            type : Number, 
-            require : true 
-
-        },
+        value : 5,
 
         tags:"black woman queer",
 
@@ -63,4 +48,4 @@ function generateReview()
 
 
 
-module.exports = generateDoctor;
+module.exports = generateReview;
