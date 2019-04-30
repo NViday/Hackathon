@@ -206,6 +206,8 @@ router.post('/register', (req, res)=>
 {
     let username = req.body.email;
 
+    var hasCreatedNewUser = false;
+
     User.findOrCreate({email: username},
 
         "_id email",
@@ -222,7 +224,7 @@ router.post('/register', (req, res)=>
                   });
             }
 
-            if(found_user)
+            if(found_user && !hasCreatedNewUser)
             {
                 res.status(500).send({
                     auth: false,
@@ -233,6 +235,7 @@ router.post('/register', (req, res)=>
             if (!found_user) 
             {
 
+                hasCreatedNewUser = true;
                  var new_user = new User(
                 {
                     names : 
