@@ -6,10 +6,10 @@
 //npm 
 let validator = require('validator');
 let mongoose = require('mongoose');
-let bcrypt = require('mongoose-bcrypt');
+let bcrypt = require('bcrypt');
+let mongooseBcrypt = require('mongoose-bcrypt');
 let timestamps = require('mongoose-timestamp');
 let mongooseStringQuery = require('mongoose-string-query');
-let mongooseFindOrCreate = require('mongoose-findorcreate');
 
 //custom
 let helper = require('../utilities/helper.js');
@@ -345,14 +345,13 @@ user_schema.methods.getCapitalizedLName = () =>
 user_schema.methods.comparePassword = (candidatePassword, cb) => 
 {
     bcrypt.compare( 
-        CandidatePassword, 
+        candidatePassword, 
         this.password, 
         (err, isMatch) => 
         {
             if(err) return cb(err);
             cb( null, isMatch);
-        }
-        )
+        });
 }
 
 
@@ -373,9 +372,9 @@ user_schema.methods.comparePassword = (candidatePassword, cb) =>
 
 //plugins 
 
-user_schema.plugin(bcrypt);
+user_schema.plugin(mongooseBcrypt);
 user_schema.plugin(timestamps);
 user_schema.plugin(mongooseStringQuery);
-user_schema.plugin(mongooseFindOrCreate);
+
 
 module.exports = mongoose.model('User', user_schema, 'users')

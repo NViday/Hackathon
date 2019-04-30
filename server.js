@@ -42,10 +42,16 @@ app.use("/doctors", require('./src/routes/doctor_routes'));
 app.use("/hospitals", require('./src/routes/hospital_routes'));
 app.use("/diseases", require('./src/routes/disease_routes'));
 
-    
-process.on('uncaughtException', function(err) {
+//Catch errors   
+process.on('unhandledRejection', (reason, p)=>{
+
+  logger.error(reason, 'rejection at', p);
+})
+.on('uncaughtException', (reason) => {
   // handle the error safely
-  logger.error(err)
+    logger.error(err);
+
+    process.exit(1);
 })
 
 // Release app

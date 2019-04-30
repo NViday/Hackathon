@@ -194,7 +194,7 @@ router.post('/login', (req, res)=>{
             }
 
             // password does not match
-            if (!user_result.validPassword(password)) 
+            if (!user_result.comparePassword(password)) 
             {
                 res.status(500).send({
                     error: "incorrect password",
